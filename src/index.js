@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { replayEpisodeCollection } from './objects/replayEpisodeCollection.js';
+
+window.replayEpisodeCollection = replayEpisodeCollection;
+replayEpisodeCollection.init();
 
 ReactDOM.render(
   <React.StrictMode>

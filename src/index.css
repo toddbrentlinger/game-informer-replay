@@ -1,13 +1,152 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+    /* Main Colors */
+    --main-text-color: #f6f6f6; /* nearly pure white */
+    --main-bg-color: #0077a2; /* gi blue hsl(196, 100%, 32%) */
+    --main-bg-hover-color: hsl(196, 100%, 24%); /* dark gi blue */
+    --main-bg-select-color: hsl(196, 100%, 16%); /* darker gi blue */
+    --main-bg-active-color: hsl(196, 100%, 10%); /* darkest gi blue */
+    --main-shadow-color: rgba(0,0,0,0.6); /* black */
+    /* Secondary Colors */
+    --second-text-color: #0077a2; /* gi blue */
+    --second-bg-color: #f4f4f4; /* nearly pure white */
+    /* Tertiary Colors */
+    --third-text-color: #3a3a3a; /* nearly pure black */
+    --third-bg-color: #f6f6f6; /* nearly pure white */
+    /* Background */
+    background-color: var(--main-bg-color);
+    background-image: url("./images/replay_bg_gi_blue_2100w.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* browser issues */
+    background-position: center top;
+    background-size: cover;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    line-height: 1.3; /* 1.2 */
+    background-color: var(--main-bg-color);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+    margin: 1em 0;
+}
+
+/* -------------------------- */
+/* ---------- Misc ---------- */
+/* -------------------------- */
+
+h1, h2, footer {
+    text-align: center;
+}
+
+img {
+    border: 0; /* prevent IE9 (and earlier) from displaying a border around the edges */
+}
+
+/* ------------------------------- */
+/* ---------- Dark Mode ---------- */
+/* ------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Main Colors */
+        --main-text-color: hsl(0, 0%, 90%);
+        --main-bg-color: hsl(0, 0%, 30%);
+        --main-bg-hover-color: hsl(0, 0%, 24%);
+        --main-bg-select-color: hsl(0, 0%, 18%);
+        --main-bg-active-color: hsl(0, 0%, 10%);
+        --main-shadow-color: rgba(255,255,255,0.6); /* white */
+        /* Secondary Colors */
+        --second-text-color: hsl(0, 0%, 66%);
+        --second-bg-color: hsl(0, 0%, 10%);
+        /* Tertiary Colors */
+        --third-bg-color: hsl(0, 0%, 0%);
+        /* Background */
+        background-color: hsl(0, 0%, 20%);
+        background-image: url("./images/replay_bg_2100w.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center top;
+        background-size: cover;
+    }
+}
+
+[data-theme="dark"] {
+    /* Main Colors */
+    --main-text-color: hsl(0, 0%, 90%);
+    --main-bg-color: hsl(0, 0%, 30%);
+    --main-bg-hover-color: hsl(0, 0%, 24%);
+    --main-bg-select-color: hsl(0, 0%, 18%);
+    --main-bg-active-color: hsl(0, 0%, 10%);
+    --main-shadow-color: rgba(255,255,255,0.6); /* white */
+    /* Secondary Colors */
+    --second-text-color: hsl(0, 0%, 66%);
+    --second-bg-color: hsl(0, 0%, 10%);
+    /* Tertiary Colors */
+    --third-bg-color: hsl(0, 0%, 0%);
+    /* Background */
+    background-color: hsl(0, 0%, 20%);
+    background-image: url("./images/replay_bg_2100w.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center top;
+    background-size: cover;
+}
+
+/* ----------------------------------- */
+/* ---------- Media Queries ---------- */
+/* ----------------------------------- */
+
+/*
+    - desktop ( > 1600px )
+    - laptop ( <= 1600px )
+    - tablets in landscape orientation ( <= 1024px )
+    @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {}
+    - tablets ( <= 768px )
+    - mobile ( <= 480px )
+*/
+
+@media (max-width: 1600px) {
+    :root {
+        background-image: url("./images/replay_bg_gi_blue_1600w.jpg");
+    }
+
+    [data-theme="dark"] {
+        background-image: url("./images/replay_bg_1600w.jpg");
+    }
+}
+
+@media (prefers-color-scheme: dark) and (max-width: 1600px) {
+    :root {
+        background-image: url("./images/replay_bg_1600w.jpg");
+    }
+}
+
+@media (max-width: 1024px) {
+    :root {
+        background-image: url("./images/replay_bg_gi_blue_1024w.jpg");
+    }
+
+    [data-theme="dark"] {
+        background-image: url("./images/replay_bg_1024w.jpg");
+    }
+}
+
+@media (prefers-color-scheme: dark) and (max-width: 1024px) {
+    :root {
+        background-image: url("./images/replay_bg_1024w.jpg");
+    }
 }

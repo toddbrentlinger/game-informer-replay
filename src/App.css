@@ -1,31 +1,71 @@
 .App {
-  text-align: center;
+    text-align: center;
+    background-color: var(--second-bg-color);
+    color: var(--second-text-color);
+    max-width: 1000px;
+    width: 88%;
+    min-height: 100vh;
+    margin: 0 auto; /* default: 8px */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Header */
+
+/* Hide h1 inside header but still accessible for readers */
+header h1 {
+    display: none;
 }
+
+/* Top Navigation */
+
+#topnav {
+    display: flex;
+    justify-content: space-between;
+    background-image: linear-gradient(to bottom, var(--main-bg-hover-color) 5%, var(--main-bg-color) 80%);
+    background-color: var(--main-bg-color);
+}
+
+#category-select-btn-container {
+    flex: 1 1 auto;
+    display: flex;
+}
+
+#category-select-btn-container button {
+    flex: 1 1 auto;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    outline: none;
+    font-size: 1rem;
+    padding: .8em .5em; /* 14px 16px (1em=16px) */
+    text-decoration: none;
+    color: var(--main-text-color);
+    -webkit-transition-duration: .2s;
+            transition-duration: .2s;
+}
+
+#category-select-btn-container button:hover {
+    background-color: var(--main-bg-hover-color);
+}
+
+#category-select-btn-container button:active {
+    background-color: var(--main-bg-select-color);
+}
+
+/* Main */
+
+main {
+    flex: 1 1 auto;
+}
+
+/* Other */
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
