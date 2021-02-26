@@ -1,5 +1,7 @@
 "use strict";
 
+import ReplayEpisode from '../classes/ReplayEpisode.js';
+
 export const replayEpisodeCollection = {
     replayEpisodeObjectArray: [], // Stores all ReplayEpisode objects
     selectedEpisodes: [], // Stores references to ReplayEpisode objects in replayEpisodeObjectArray according to filter/sort properties
@@ -12,7 +14,6 @@ export const replayEpisodeCollection = {
 
 replayEpisodeCollection.init = function () {
     const data = this.loadJSON();
-    console.log(`Data outside fetch: ${data.length}`);
 };
 
 replayEpisodeCollection.loadJSON = async function () {
@@ -25,11 +26,13 @@ replayEpisodeCollection.loadJSON = async function () {
         }
     ).then((response) => response.json()
     ).then((data) => {
-        console.log(`Data inside fetch: ${data.length}`);
         this.createReplayEpisodeArray(data);
     });
 };
 
 replayEpisodeCollection.createReplayEpisodeArray = function (data) {
-
+    //this.jsonData = data;
+    this.replayEpisodeObjectArray = data.map(
+        (episodeData) => new ReplayEpisode(episodeData)
+    );
 }

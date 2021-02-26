@@ -4,12 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 function ReplayEpisode(props) {
+    function createEpisodeNumberStr() {
+        const temp = props.replayEpisode.getReplaySeason();
+        if (temp[0])// If season is 1 or higher
+            return `S${temp[0]}:E${temp[1]} (#${replayEpisode.number})`;
+        else { // Else season is 0 (unofficial episode)
+            return `Unofficial #${Math.floor(replayEpisode.number * 100)}`;
+    }
+
     return (
         <section class="episode">
             <div class="episodeMain">
                 <div class="episodeHeader">
-                    <h3 class="episodeTitle">{props.replayEpisode.episodeTitle}</h3>
-                    <div class="episodeNumber">{props.replayEpisode.episodeNumber}</div>
+                    <h3 class="episodeTitle">{props.replayEpisode.title}</h3>
+                    <div class="episodeNumber">{createEpisodeNumberStr()}</div>
                 </div>
                 <div class="thumbnail-container">
                     <div class="episodeThumbnail">

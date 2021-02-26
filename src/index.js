@@ -6,13 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { replayEpisodeCollection } from './objects/replayEpisodeCollection.js';
 
 window.replayEpisodeCollection = replayEpisodeCollection;
-replayEpisodeCollection.init();
+//replayEpisodeCollection.init();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <App replayEpisodeCollection={replayEpisodeCollection} />
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
