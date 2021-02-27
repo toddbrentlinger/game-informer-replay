@@ -1,6 +1,6 @@
 "use strict";
 
-import { isEmptyObject } from '../utilities.js';
+import { isEmptyObject, getVideoLengthInSeconds } from '../utilities.js';
 
 export default class ReplayEpisode {
     // ---------------------------------
@@ -119,12 +119,41 @@ export default class ReplayEpisode {
         // If tempHeadingsObj is NOT empty, assign to this.otherHeadingsObj
         if (!isEmptyObject(tempHeadingsObj))
             this.otherHeadings = tempHeadingsObj;
+
+        // Update static properties
+        ReplayEpisode.collection.push(this);
+        ReplayEpisode.totalTimeSeconds += getVideoLengthInSeconds(this.videoLength);
+        if (this.views) ReplayEpisode.totalViews += this.views;
+        if (this.likes) ReplayEpisode.totalLikes += this.likes;
+        if (this.dislikes) ReplayEpisode.totalDislikes += this.dislikes;
+
     }
 
-    // TODO: Make getter or static method of ReplayEpisode
+    // -----------------------------
+    // ---------- Getters ----------
+    // -----------------------------
+
+    get likeRatio() {
+        if (this.likes && this.dislikes)
+            return ((this.likes * 100) / (this.likes + this.dislikes)).toFixed(1);
+    }
+
+    // ------------------------------------
+    // ---------- Public Methods ----------
+    // ------------------------------------
+
+    createEpisodeNumberStr() {
+        const temp = this.getReplaySeason();
+        if (temp[0]) // If season is 1 or higher
+            return `S${temp[0]}:E${temp[1]} (#${this.number})`;
+        else // Else season is 0 (unofficial episode)
+            return `Unofficial #${Math.floor(this.number * 100)}`;
+    }
+
     /**
      * Get replay season and season episode number
      * @returns {[Number, Number]}
+     * @todo Make getter or static method of ReplayEpisode?
      */
     getReplaySeason() {
         //Constant array to hold episode numbers that each season begins with.
@@ -152,4 +181,18 @@ export default class ReplayEpisode {
         // Return both season and seasonEpisode number
         return [season, seasonEpisode];
     }
+
+    // ---------------------------------------
+    // ---------- Static Properties ----------
+    // ---------------------------------------
+
+    static collection = [];
+    static totalTimeSeconds = 0;
+    static totalViews = 0;
+    static totalLikes = 0;
+    static totalDislikes = 0;
+
+    // ------------------------------------
+    // ---------- Static Methods ----------
+    // ------------------------------------
 }

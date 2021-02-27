@@ -2,27 +2,24 @@ import React from 'react';
 import './ReplayEpisodeComponent.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import Thumbnail from './Thumbnail.js';
 
 function ReplayEpisode(props) {
-    function createEpisodeNumberStr() {
-        const temp = props.replayEpisode.getReplaySeason();
-        if (temp[0])// If season is 1 or higher
-            return `S${temp[0]}:E${temp[1]} (#${replayEpisode.number})`;
-        else { // Else season is 0 (unofficial episode)
-            return `Unofficial #${Math.floor(replayEpisode.number * 100)}`;
-    }
 
     return (
         <section class="episode">
             <div class="episodeMain">
                 <div class="episodeHeader">
                     <h3 class="episodeTitle">{props.replayEpisode.title}</h3>
-                    <div class="episodeNumber">{createEpisodeNumberStr()}</div>
+                    <div class="episodeNumber">{props.replayEpisode.createEpisodeNumberStr()}</div>
                 </div>
                 <div class="thumbnail-container">
                     <div class="episodeThumbnail">
                         <a title="">
-                            <img class="episodeImage" alt="" width="300" height="169" src="" srcset="" />
+                            <Thumbnail
+                                className="episodeImage"
+                                thumbnails={props.replayEpisode.thumbnails}
+                            />
                             <time class="episodeLength" datetime=""></time>
                             <div class="playOverlay">
                                 <img alt="" width="256" height="256" src="../images/play-button-icon-gi-256.png" />

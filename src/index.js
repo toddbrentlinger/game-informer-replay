@@ -4,7 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { replayEpisodeCollection } from './objects/replayEpisodeCollection.js';
+import ReplayEpisode from './classes/ReplayEpisode.js';
 
+window.ReplayEpisode = ReplayEpisode;
 window.replayEpisodeCollection = replayEpisodeCollection;
 //replayEpisodeCollection.init();
 

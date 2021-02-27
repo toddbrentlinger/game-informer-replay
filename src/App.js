@@ -4,6 +4,22 @@ import './App.css';
 import ToggleSwitch from './components/ToggleSwitch.js';
 import FooterCustom from './components/FooterCustom.js';
 
+const initialState = {
+    'display': { 'replay': false, 'superReplay': false },
+    'data': { 'replay': [], 'superReplay': [] }
+};
+
+function reducer(state, action) {
+    switch (action) {
+        case 'replay':
+            break;
+        case 'superReplay':
+            break;
+        default:
+            return state;
+    }
+}
+
 function App(props) {
     const [displayedEpisodes, setDisplayedEpisodes] = useState(null);
 
