@@ -1,0 +1,212 @@
+.episode { 
+    margin: .6em 0; 
+    /*box-shadow: 0px 0px 5px 0px var(--main-shadow-color);*/
+    box-shadow: inset 0 -3em 3em rgba(150,150,150,.1),
+        0 .3em 1em -.1em rgba(0,0,0,.3);
+    overflow: hidden;
+    border-radius: 1em;
+    border: 2px solid var(--main-bg-color);
+    border-top: none;
+}
+
+/* Episode Main */
+
+/* Episode Header */
+.episodeHeader {
+    background-image: linear-gradient(to bottom, var(--main-bg-hover-color) 5%, var(--main-bg-color) 80%);
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    /*border-radius: 1em 1em 0 0;*/
+}
+
+/* Episode Title */
+.episodeTitle { margin: 0; }
+
+/* Episode Number */
+.episodeNumber {
+    padding-left: 1em;
+    text-align: right;
+}
+
+/* Thumbnail */
+.thumbnail-container {
+    float: left;
+    width: 45%;
+}
+
+/* Clear-fix */
+.episodeMain::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.episodeThumbnail {
+    width: 100%;
+    padding-top: 56.25%;
+    background-color: #000;
+    position: relative;
+}
+
+.episodeThumbnail > a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Thumnail Image */
+.episodeThumbnail img {
+    position: static;
+    height: 100%;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Play Video Overlay */
+.episodeThumbnail .playOverlay {
+    position: absolute;
+    width: 20%;
+    top: 30%;
+    left: 40%;
+    display: none;
+}
+.episodeThumbnail:hover .playOverlay {
+    display: block;
+}
+.playOverlay img {
+    width: 100%;
+    height: auto;
+}
+
+/* Clear-fix */
+.episodeThumbnail::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Episode Length */
+
+.episodeLength {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 4px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(0,0,0,0.8);
+    font-size: .8em;
+}
+
+/* ---------- Episode Details ---------- */
+
+.episodeDetails {
+    float: right;
+    width: 55%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 1em;
+    font-size: .9em;
+}
+.episodeAirDate, .gi-crew > *, .segments > *, .views-likes-container { padding: .4em 0; }
+.episodeAirDate { padding-right: 1em; }
+.gi-crew { width: 100%; }
+/* Views/Likes */
+.views-likes-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.views-likes-container .views {
+    padding-right: 1em;
+}
+
+.views-likes-container .fa {
+    margin-right: .5em;
+}
+
+/* ---------- Episode More Info (w/ dropdown display) ---------- */
+
+.episodeMoreInfo {
+    padding: 0 1.5em;
+    font-size: .9em;                      
+}
+.episodeMoreInfo h4 {
+    text-transform: capitalize;
+    font-size: 1.1em;
+}
+
+/* ---------- GI Article ---------- */
+
+.article-heading {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1.33em 0;
+}
+.article-title {
+    margin: 0;
+    padding-right: .8em;
+}
+.article-author {
+    align-self: flex-end;
+    font-size: .9em;
+}
+
+/* ---------- Gallery ---------- */
+
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.gallery-item {
+    margin: .3em;
+    border-style: solid;
+    border-width: .2em;
+    border-color: var(--main-bg-color);
+    border-radius: .5em;
+    overflow: hidden;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    box-shadow: 0 .3em 1em -.1em rgba(0,0,0,.3);
+}
+.gallery-item figure {
+    display: table;
+    margin: 0;
+}
+.gallery-item figure a {
+    display: block;
+}
+.gallery-item figure img {  }
+.gallery-item figcaption { 
+    display: table-caption;
+    caption-side: bottom;
+    text-align: center;
+    padding: .3em;
+}
+
+/* ---------- Lists of Links ---------- */
+
+ul.link-list {
+    column-count: 1;
+}
+
+/* ---------- Thematic Break hr ---------- */
+
+.episode hr {
+    border: 0;
+    height: 2px;
+    /*background-color: var(--main-bg-color);*/
+    background-image: linear-gradient(to right, rgba(0,0,0,0), var(--main-bg-color) 20%, var(--main-bg-color) 80%, rgba(0,0,0,0));
+    margin: 0 1em;
+}

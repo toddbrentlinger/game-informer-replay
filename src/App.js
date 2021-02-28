@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import ToggleSwitch from './components/ToggleSwitch.js';
 import FooterCustom from './components/FooterCustom.js';
+//import { replayEpisodeCollection } from './objects/replayEpisodeCollection';
+import ReplayEpisode from './classes/ReplayEpisode.js';
+import ReplayEpisodeComponent from './components/ReplayEpisodeComponent.js';
 
 const initialState = {
     'display': { 'replay': false, 'superReplay': false },
@@ -21,11 +24,44 @@ function reducer(state, action) {
 }
 
 function App(props) {
-    const [displayedEpisodes, setDisplayedEpisodes] = useState(null);
+    const [displayedEpisodes, setDisplayedEpisodes] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    //useEffect(() => {
+    //    props.replayEpisodeCollection.init();
+    //}, []);
 
     useEffect(() => {
-        props.replayEpisodeCollection.init();
+        setIsLoading(true);
+        fetch("data/gameInformerReplayFandomWikiData.json",
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }
+        ).then((response) => response.json()
+        ).then((data) => {
+            data.forEach(episodeData => new ReplayEpisode(episodeData));
+            setDisplayedEpisodes(ReplayEpisode.collection);
+            setIsLoading(false);
+        });
     }, []);
+
+    function createDisplayedEpisodesComponents() {
+        if (!displayedEpisodes.length) return;
+
+        let episodesArr = [];
+        for (let i = 0; i < 5; i++) {
+            episodesArr.push(
+                <ReplayEpisodeComponent
+                    key={i}
+                    replayEpisode={displayedEpisodes[i]}
+                />
+            );
+        }
+        return episodesArr;
+    }
 
     return (
         <div className="App">
@@ -37,7 +73,7 @@ function App(props) {
                 </div>
                 <ToggleSwitch />
             </nav>
-            <main>LIST</main>
+            <main>{isLoading ? "Loading..." : createDisplayedEpisodesComponents()}</main>
             <FooterCustom />
         </div>
     );

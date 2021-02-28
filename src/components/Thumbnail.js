@@ -6,10 +6,10 @@ function Thumbnail(props) {
         props.thumbnails.default;
 
     function createSrcSet() {
-        temp = "";
+        let temp = "";
         Object.keys(props.thumbnails)
             .forEach((key, index, arr) => {
-                temp += `${arr[key].url} ${arr[key].width}w`;
+                temp += `${props.thumbnails[key].url} ${props.thumbnails[key].width}w`;
                 if (index < arr.length - 1)
                     temp += ", ";
             });
@@ -23,7 +23,7 @@ function Thumbnail(props) {
             width={defaultImage.width}
             height={defaultImage.height}
             src={defaultImage.url}
-            srcset={createSrcSet()}
+            srcSet={createSrcSet()}
             sizes="50vw"
         />
     );

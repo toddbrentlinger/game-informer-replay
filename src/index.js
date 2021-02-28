@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { replayEpisodeCollection } from './objects/replayEpisodeCollection.js';
-import ReplayEpisode from './classes/ReplayEpisode.js';
+//import { replayEpisodeCollection } from './objects/replayEpisodeCollection.js';
+//import ReplayEpisode from './classes/ReplayEpisode.js';
 
-window.ReplayEpisode = ReplayEpisode;
-window.replayEpisodeCollection = replayEpisodeCollection;
+//window.ReplayEpisode = ReplayEpisode;
+//window.replayEpisodeCollection = replayEpisodeCollection;
 //replayEpisodeCollection.init();
 
 ReactDOM.render(
     <React.StrictMode>
-        <App replayEpisodeCollection={replayEpisodeCollection} />
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );
