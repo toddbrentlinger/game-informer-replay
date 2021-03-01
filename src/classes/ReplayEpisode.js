@@ -122,7 +122,7 @@ export default class ReplayEpisode {
 
         // Update static properties
         ReplayEpisode.collection.push(this);
-        ReplayEpisode.totalTimeSeconds += getVideoLengthInSeconds(this.videoLength);
+        ReplayEpisode.totalTimeSeconds += this.videoLengthInSeconds;
         if (this.views) ReplayEpisode.totalViews += this.views;
         if (this.likes) ReplayEpisode.totalLikes += this.likes;
         if (this.dislikes) ReplayEpisode.totalDislikes += this.dislikes;
@@ -132,6 +132,15 @@ export default class ReplayEpisode {
     // -----------------------------
     // ---------- Getters ----------
     // -----------------------------
+
+    // TODO: Perhaps make a property of class instance
+    get videoLengthInSeconds() {
+        return getVideoLengthInSeconds(this.videoLength);
+    }
+
+    get airDateAsDateTimeAttribute() {
+        return `${this.airdate.getFullYear()}-${this.airdate.getMonth() + 1}-${this.airdate.getDate()}`;
+    }
 
     get likeRatio() {
         if (this.likes && this.dislikes)
@@ -180,6 +189,40 @@ export default class ReplayEpisode {
 
         // Return both season and seasonEpisode number
         return [season, seasonEpisode];
+    }
+
+    getDateString() {
+        let months = ["January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"];
+        return months[this.airdate.getMonth()] + ' ' + this.airdate.getDate() +
+            ', ' + this.airdate.getFullYear();
+    }
+
+    /**
+     * 
+     * @param {String} segment
+     * @returns {String}
+     * @todo Perhaps make static method?
+     */
+    getSegmentTitle(segment) {
+        // If segment is empty, there is no segment, return empty string
+        if (segment && typeof segment === 'string' && segment.length === 0)
+            return null;
+
+        switch (segment) {
+            case 'RR': return 'Replay Roulette';
+            case 'SRS': return 'Super Replay Showdown';
+            case 'YDIW': return "You're Doing It Wrong";
+            case 'ST': return 'Stress Test';
+            case 'RP': return 'RePorted';
+            case 'DP': return 'Developer Pick';
+            case '2037': return 'Replay 2037';
+            case 'HF': return 'Horror Fest';
+            case 'RRL': return 'Replay Real Life';
+            default: return segment;
+            // Other Segments: GI Versus, Developer Spotlight, 
+            // Reevesplay, Moments
+        }
     }
 
     // ---------------------------------------

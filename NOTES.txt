@@ -1,0 +1,4 @@
+TODO: 
+- Use hash map to get array of games played so do NOT have to check if every game is already in an array.
+
+Third Season Episodes: 302-307
