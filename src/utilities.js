@@ -92,3 +92,16 @@ export function isEmptyObject(object) {
     }
     return true;
 }
+
+/**
+ * 
+ * @param {Function} func
+ * @param {Number} delay
+ */
+export function debounce(func, delay) {
+    let debounceTimer;
+    return function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(this, arguments), delay);
+    };
+}

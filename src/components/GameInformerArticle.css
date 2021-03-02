@@ -1,0 +1,15 @@
+.article-heading {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1.33em 0;
+}
+
+.article-title {
+    margin: 0;
+    padding-right: .8em;
+}
+
+.article-author {
+    align-self: flex-end;
+    font-size: .9em;
+}

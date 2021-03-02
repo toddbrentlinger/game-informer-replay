@@ -6,14 +6,22 @@ function Thumbnail(props) {
         props.thumbnails.default;
 
     function createSrcSet() {
-        let temp = "";
-        Object.keys(props.thumbnails)
-            .forEach((key, index, arr) => {
-                temp += `${props.thumbnails[key].url} ${props.thumbnails[key].width}w`;
+        return Object.values(props.thumbnails)
+            .reduce((accumulator, currValue, index, arr) => {
+                accumulator += `${currValue.url} ${currValue.width}w`;
                 if (index < arr.length - 1)
-                    temp += ", ";
-            });
-        return temp;
+                    accumulator += ", ";
+                return accumulator;
+            }, "");
+
+        //let temp = "";
+        //Object.keys(props.thumbnails)
+        //    .forEach((key, index, arr) => {
+        //        temp += `${props.thumbnails[key].url} ${props.thumbnails[key].width}w`;
+        //        if (index < arr.length - 1)
+        //            temp += ", ";
+        //    });
+        //return temp;
     }
 
     return (

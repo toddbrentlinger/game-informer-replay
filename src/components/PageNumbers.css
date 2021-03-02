@@ -1,0 +1,81 @@
+.page-button-container {
+    display: flex;
+    justify-content: center;
+    padding: .6em 0;
+}
+
+.page-button-container > button {
+    flex: 1;
+    padding: 1em;
+    font-weight: 600; /* Default: 400, Bold: 700 */
+}
+
+.page-button-container > button:disabled {
+    opacity: 0;
+    cursor: default;
+}
+
+.page-button-container > button[value="first"] {
+    border-radius: .5em 0 0 .5em;
+    margin-left: .5em;
+}
+
+.page-button-container > button[value="last"] {
+    border-radius: 0 .5em .5em 0;
+    margin-right: .5em;
+}
+
+.page-number-container {
+    flex: 6;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-left: 1px solid var(--second-bg-color);
+    border-right: 1px solid var(--second-bg-color);
+}
+
+.page-number-container button {
+    /*width: 10%;*/
+    flex: 1;
+    /*box-shadow: none;*/
+    border: 1px solid var(--second-bg-color);
+    border-radius: 0;
+    border-top: none;
+    border-bottom: none;
+}
+
+.page-number-container button.active {
+    background-image: none;
+    background-color: var(--main-bg-active-color);
+}
+
+/* ----------------------------------- */
+/* ---------- Custom Button ---------- */
+/* ----------------------------------- */
+
+.custom-button {
+    box-shadow: inset 0px 0px 1px 0px var(--main-shadow-color);
+    background-image: linear-gradient(to bottom, var(--main-bg-hover-color) 5%, var(--main-bg-color) 80%);
+    background-color: var(--main-bg-color);
+    border: none;
+    border-radius: .5em;
+    color: var(--main-text-color);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-transition-duration: .1s;
+    transition-duration: .1s;
+}
+
+.custom-button:hover {
+    background-image: linear-gradient(to bottom, var(--main-bg-hover-color) 5%, var(--main-bg-hover-color) 80%);
+    background-color: var(--main-bg-hover-color);
+}
+
+.custom-button:active {
+    background-image: linear-gradient(to bottom, var(--main-bg-select-color) 5%, var(--main-bg-select-color) 80%);
+    background-color: var(--main-bg-select-color);
+    position: relative;
+    top: 1px;
+}

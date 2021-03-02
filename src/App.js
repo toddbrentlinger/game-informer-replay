@@ -6,6 +6,7 @@ import FooterCustom from './components/FooterCustom.js';
 //import { replayEpisodeCollection } from './objects/replayEpisodeCollection';
 import ReplayEpisode from './classes/ReplayEpisode.js';
 import ReplayEpisodeComponent from './components/ReplayEpisodeComponent.js';
+import PageNumbers from './components/PageNumbers.js';
 
 const initialState = {
     'display': { 'replay': false, 'superReplay': false },
@@ -23,8 +24,10 @@ function reducer(state, action) {
     }
 }
 
-function App(props) {
-    const [displayedEpisodes, setDisplayedEpisodes] = useState([]);
+function App() {
+    const [selectedEpisodes, setSelectedEpisodes] = useState([]);
+    const [currPage, setCurrPage] = useState(1);
+    const [resultsPerPage, setResultsPerPage] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
 
     //useEffect(() => {
@@ -43,27 +46,48 @@ function App(props) {
         ).then((response) => response.json()
         ).then((data) => {
             data.forEach(episodeData => new ReplayEpisode(episodeData));
-            setDisplayedEpisodes(ReplayEpisode.collection);
+            setSelectedEpisodes(ReplayEpisode.collection);
             setIsLoading(false);
         });
     }, []);
 
     function createDisplayedEpisodesComponents() {
-        if (!displayedEpisodes.length) return;
+        if (!selectedEpisodes.length) return;
 
         let episodesArr = [];
-        const start = 302;
-        const end = 308;
+        //const start = 0; // 302
+        //const end = 5; // 308
+        const start = (currPage - 1) * resultsPerPage;
+        const end = Math.min(start + resultsPerPage, selectedEpisodes.length);
         for (let i = start; i < end; i++) {
             episodesArr.push(
                 <ReplayEpisodeComponent
                     key={i}
-                    replayEpisode={displayedEpisodes[i]}
+                    replayEpisode={selectedEpisodes[i]}
                 />
             );
         }
         return episodesArr;
     }
+
+    const mainContent = (
+        <main id="top-page">
+            <PageNumbers
+                currPage={currPage}
+                resultsPerPage={resultsPerPage}
+                setCurrPage={setCurrPage}
+                maxResults={ReplayEpisode.collection.length}
+            />
+            {createDisplayedEpisodesComponents()}
+            <PageNumbers
+                currPage={currPage}
+                resultsPerPage={resultsPerPage}
+                setCurrPage={setCurrPage}
+                maxResults={ReplayEpisode.collection.length}
+                scrollToTop={true}
+            />
+        </main>
+    );
 
     return (
         <div className="App">
@@ -75,7 +99,7 @@ function App(props) {
                 </div>
                 <ToggleSwitch />
             </nav>
-            <main>{isLoading ? "Loading..." : createDisplayedEpisodesComponents()}</main>
+            {isLoading ? "Loading..." : mainContent}
             <FooterCustom />
         </div>
     );

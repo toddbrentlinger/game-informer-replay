@@ -3,6 +3,7 @@ import './ReplayEpisodeComponent.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import Thumbnail from './Thumbnail.js';
+import GameInformerArticle from './GameInformerArticle.js';
 import playButtonImg from '../images/play-button-icon-gi-256.png';
 import { listArrayAsString, addCommasToNumber } from '../utilities.js';
 
@@ -26,6 +27,31 @@ function ReplayEpisode(props) {
                         : null)
                 }
             </div>
+        );
+    }
+
+    /**
+     * 
+     * @param {Object[]} contentArr
+     */
+    function createDetailsComponent(contentArr) {
+        if (!contentArr) return;
+
+        return contentArr.map(
+            (content, index) => {
+                // If content is an array, add ul list of values
+                if (Array.isArray(content)) {
+                    return (
+                        <ul key={index}>
+                            { content.map((str, listIndex) => (<li key={listIndex}>{str}</li>)) }
+                        </ul>
+                    );
+                }
+                // Else create p element
+                else {
+                    return <p key={index}>{content}</p>
+                }
+            }
         );
     }
 
@@ -83,6 +109,10 @@ function ReplayEpisode(props) {
             </div>
             <hr />
             <div className="episodeMoreInfo">
+                <div className="description">
+                    {createDetailsComponent(props.replayEpisode.description)}
+                </div>
+                <GameInformerArticle article={props.replayEpisode.giArticle} />
             </div>
         </section>
     );
