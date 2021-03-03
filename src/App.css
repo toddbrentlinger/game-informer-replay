@@ -49,7 +49,8 @@ header h1 {
     background-color: var(--main-bg-hover-color);
 }
 
-#category-select-btn-container button:active {
+#category-select-btn-container button:active,
+#category-select-btn-container button.active {
     background-color: var(--main-bg-select-color);
 }
 

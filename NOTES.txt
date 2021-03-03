@@ -1,4 +1,6 @@
 TODO: 
 - Use hash map to get array of games played so do NOT have to check if every game is already in an array.
 
+- Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplay, and eventually Test Chamber classes.
+
 Third Season Episodes: 302-307

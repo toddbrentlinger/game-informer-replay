@@ -1,0 +1,33 @@
+.loading-container {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--main-bg-color);
+}
+
+.loading-container h2 {
+    text-align: center;
+}
+
+.loading-container .icon {
+    width: 25%;
+    align-self: center;
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+}
+
+.loading-container .icon svg {
+    width: 100%;
+    height: auto;
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

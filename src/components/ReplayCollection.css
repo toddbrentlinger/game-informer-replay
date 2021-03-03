@@ -1,0 +1,13 @@
+/* -------------------------- */
+/* ---------- Sort ---------- */
+/* -------------------------- */
+
+#sort-main {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#sort-container select {
+    margin-left: .5em;
+}

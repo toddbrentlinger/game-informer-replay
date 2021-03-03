@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import ToggleSwitch from './components/ToggleSwitch.js';
 import FooterCustom from './components/FooterCustom.js';
-//import { replayEpisodeCollection } from './objects/replayEpisodeCollection';
 import ReplayEpisode from './classes/ReplayEpisode.js';
-import ReplayEpisodeComponent from './components/ReplayEpisodeComponent.js';
-import PageNumbers from './components/PageNumbers.js';
+import ReplayCollection from './components/ReplayCollection.js';
+import IsLoading from './components/IsLoading.js';
 
+/*
 const initialState = {
     'display': { 'replay': false, 'superReplay': false },
     'data': { 'replay': [], 'superReplay': [] }
@@ -23,16 +23,15 @@ function reducer(state, action) {
             return state;
     }
 }
+*/
 
 function App() {
-    const [selectedEpisodes, setSelectedEpisodes] = useState([]);
-    const [currPage, setCurrPage] = useState(1);
-    const [resultsPerPage, setResultsPerPage] = useState(10);
+    const [selectedChannel, setSelectedChannel] = useState({
+        'replay': true,
+        'superReplay': false,
+        'testChamber': false,
+    });
     const [isLoading, setIsLoading] = useState(false);
-
-    //useEffect(() => {
-    //    props.replayEpisodeCollection.init();
-    //}, []);
 
     useEffect(() => {
         setIsLoading(true);
@@ -46,60 +45,24 @@ function App() {
         ).then((response) => response.json()
         ).then((data) => {
             data.forEach(episodeData => new ReplayEpisode(episodeData));
-            setSelectedEpisodes(ReplayEpisode.collection);
             setIsLoading(false);
         });
     }, []);
-
-    function createDisplayedEpisodesComponents() {
-        if (!selectedEpisodes.length) return;
-
-        let episodesArr = [];
-        //const start = 0; // 302
-        //const end = 5; // 308
-        const start = (currPage - 1) * resultsPerPage;
-        const end = Math.min(start + resultsPerPage, selectedEpisodes.length);
-        for (let i = start; i < end; i++) {
-            episodesArr.push(
-                <ReplayEpisodeComponent
-                    key={i}
-                    replayEpisode={selectedEpisodes[i]}
-                />
-            );
-        }
-        return episodesArr;
-    }
-
-    const mainContent = (
-        <main id="top-page">
-            <PageNumbers
-                currPage={currPage}
-                resultsPerPage={resultsPerPage}
-                setCurrPage={setCurrPage}
-                maxResults={ReplayEpisode.collection.length}
-            />
-            {createDisplayedEpisodesComponents()}
-            <PageNumbers
-                currPage={currPage}
-                resultsPerPage={resultsPerPage}
-                setCurrPage={setCurrPage}
-                maxResults={ReplayEpisode.collection.length}
-                scrollToTop={true}
-            />
-        </main>
-    );
-
+    
     return (
         <div className="App">
             <header><h1>Game Informer</h1></header>
             <nav id="topnav">
                 <div id="category-select-btn-container">
-                    <button>Replay</button>
+                    <button
+                        className={selectedChannel.replay ? "active" : null}
+                    >Replay</button>
                     <button>Super Replay</button>
+                    <button>Test Chamber</button>
                 </div>
                 <ToggleSwitch />
             </nav>
-            {isLoading ? "Loading..." : mainContent}
+            {isLoading ? <IsLoading /> : <ReplayCollection />}
             <FooterCustom />
         </div>
     );
