@@ -1,6 +1,15 @@
 TODO: 
-- Use hash map to get array of games played so do NOT have to check if every game is already in an array.
+- Use Set to get array of games played so do NOT have to check if every game is already in an array OR Map with title as key and count as property
 
-- Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplay, and eventually Test Chamber classes.
+- Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplayEpisode, and eventually Test Chamber classes.
+
+- To find search terms, search for each property in ReplayEpisode instance. Need to check if property is string, array, or object. If string, return true if it contains search. If array, check each element. If object, check each property. Use recursive function.
 
 Third Season Episodes: 302-307
+
+Spider-man Miles Morales 100 Combo:
+- Use camo
+- Change perks to help, such as camo hits count for 2x
+- Second combat challenge
+- Lower difficulty. Apparently lowest difficulty does not reset combo when hits
+- Find pipe guy and punch-slide-repeat

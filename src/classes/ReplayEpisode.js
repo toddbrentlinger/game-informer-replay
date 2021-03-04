@@ -93,12 +93,12 @@ export default class ReplayEpisode {
             this.giArticle = episodeData.article;
 
         // External Links
-        this.external_links = [];
+        this.externalLinks = [];
         if (episodeData.details.external_links)
-            this.external_links = episodeData.details.external_links;
+            this.externalLinks = episodeData.details.external_links;
         // Add Fandom link as first element of external links list
         if (episodeData.fandomWikiURL) {
-            this.external_links.unshift(
+            this.externalLinks.unshift(
                 { href: `https://replay.fandom.com${episodeData.fandomWikiURL}`, title: this.title }
             );
         }
@@ -126,6 +126,7 @@ export default class ReplayEpisode {
         if (this.views) ReplayEpisode.totalViews += this.views;
         if (this.likes) ReplayEpisode.totalLikes += this.likes;
         if (this.dislikes) ReplayEpisode.totalDislikes += this.dislikes;
+        ReplayEpisode.checkGamesInEpisode(this);
 
     }
 
@@ -234,8 +235,72 @@ export default class ReplayEpisode {
     static totalViews = 0;
     static totalLikes = 0;
     static totalDislikes = 0;
+    static gamesPlayed = new Map();
 
     // ------------------------------------
     // ---------- Static Methods ----------
     // ------------------------------------
+
+    /**
+     * 
+     * @param {String} url
+     * @todo Move to public method since it does NOT use static properties
+     */
+    static getLinkSource(url) {
+        const linkSourceOptions = {
+            'gameinformer': 'Game Informer',
+            'youtube': 'YouTube',
+            'fandom': 'Fandom',
+            'wikipedia': 'Wikipedia',
+            'gamespot': 'GameSpot',
+            'steampowered': 'Steam',
+        };
+
+        const linkSourceKey = Object.keys(linkSourceOptions)
+            .find(key => url.includes(key));
+
+        return linkSourceKey
+            ? ` on ${linkSourceOptions[linkSourceKey]}`
+            : null;
+    }
+
+    /**
+     * 
+     * @param {String} gameTitle
+     */
+    static addGameToGamesPlayed(gameTitle) {
+        if (this.gamesPlayed.has(gameTitle)) {
+            this.gamesPlayed.get(gameTitle).count++;
+        } else {
+            this.gamesPlayed.set(gameTitle, { 'count': 1 });
+        }
+    }
+
+    static checkGamesInEpisode(replayEpisode) {
+        // Main Segment
+        if (replayEpisode.mainSegmentGames) {
+            for (const game of replayEpisode.mainSegmentGames)
+                this.addGameToGamesPlayed(game.title);
+        }
+        // Second Segment
+        if (replayEpisode.secondSegmentGames) {
+            for (const gameTitle of replayEpisode.secondSegmentGames)
+                this.addGameToGamesPlayed(gameTitle);
+        }
+        // Middle Segment
+        if (replayEpisode.middleSegmentContent) {
+            const ignoreMiddleSegments = ['A Poor Retelling of Gaming History', 'Reflections', 'Embarassing Moments'];
+            const ignoreMiddleSegmentsContentEndingWith = [' Ad', ' Reel', ' Skit', ' Buttz', ' Pamphlet'];
+            // Check segment type
+            if (replayEpisode.middleSegment
+                && ignoreMiddleSegments.includes(replayEpisode.middleSegment))
+                return;
+            // Check content ending
+            if (ignoreMiddleSegmentsContentEndingWith
+                .some(str => replayEpisode.middleSegmentContent.endsWith(str)))
+                return;
+            // If reach this point, check game title
+            this.addGameToGamesPlayed(replayEpisode.middleSegmentContent);
+        }
+    }
 }

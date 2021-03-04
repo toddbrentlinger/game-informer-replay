@@ -6,14 +6,22 @@ import Thumbnail from './Thumbnail.js';
 import GameInformerArticle from './GameInformerArticle.js';
 import playButtonImg from '../images/play-button-icon-gi-256.png';
 import { listArrayAsString, addCommasToNumber } from '../utilities.js';
+import ReplayEpisode from '../classes/ReplayEpisode.js';
 
-function ReplayEpisode(props) {
+function ReplayEpisodeComponent(props) {
     function createMainSegmentGameList() {
         const gamesArr = props.replayEpisode.mainSegmentGames
             .map(game => game.title);
         return listArrayAsString(gamesArr);
     }
 
+    /**
+     * 
+     * @param {String} title
+     * @param {String} className
+     * @param {String} segment
+     * @param {String[]} content
+     */
     function createSegmentComponent(title, className, segment, content) {
         if (!segment) return;
 
@@ -53,6 +61,86 @@ function ReplayEpisode(props) {
                 }
             }
         );
+    }
+
+    /**
+     * 
+     * @param {String} headline
+     */
+    function createListOfLinks(headline, linksArr, urlPrepend) {
+        if (!linksArr.length) return null;
+
+        const linksNodeArr = linksArr.map(
+            (link, index) => {
+                return (
+                    <li key={index}>
+                        <i>
+                            <a
+                                href={urlPrepend ? urlPrepend + link.href : link.href}
+                                target="_blank"
+                                rel="noopener"
+                            >{link.title}</a>
+                        </i>
+                        {ReplayEpisode.getLinkSource(link.href)}
+                    </li>
+                );
+            }
+        );
+
+        return (
+            <div>
+                <h4>{headline}</h4>
+                <ul>{linksNodeArr}</ul>
+            </div>
+        );
+    }
+
+    /**
+     * 
+     * @param {String} key
+     * @param {Object[]} value
+     */
+    function createSectionFromHeading(key, value) {
+        switch (key) {
+            case 'see_also':
+                return createListOfLinks("see also", value, "https://replay.fandom.com")
+            case 'gallery':
+                return (
+                    <div>
+                        <h4>gallery</h4>
+                        <div className="gallery-container">
+                            {
+                                value.map(image => (
+                                    <div className="gallery-item">
+                                        <figure>
+                                            <figcaption>{image.caption}</figcaption>
+                                            <a
+                                                href={image.link}
+                                                target="_blank"
+                                                rel="noopener"
+                                            >
+                                                <img
+                                                    src={image.src}
+                                                    width={image.width}
+                                                    height={image.height}
+                                                    title={image.title}
+                                                />
+                                            </a>
+                                        </figure>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                );
+            default:
+                return (
+                    <div>
+                        <h4>{key.replace(/_/g, " ")}</h4>
+                        {createDetailsComponent(value)}
+                    </div>
+                );
+        }
     }
 
     return (
@@ -113,9 +201,17 @@ function ReplayEpisode(props) {
                     {createDetailsComponent(props.replayEpisode.description)}
                 </div>
                 <GameInformerArticle article={props.replayEpisode.giArticle} />
+                {
+                    props.replayEpisode.otherHeadings
+                        ? (Object.entries(props.replayEpisode.otherHeadings)
+                            .map(entry => createSectionFromHeading(entry[0], entry[1]))
+                        )
+                        : null
+                }
+                {createListOfLinks("external links", props.replayEpisode.externalLinks)}
             </div>
         </section>
     );
 }
 
-export default ReplayEpisode;
+export default ReplayEpisodeComponent;
