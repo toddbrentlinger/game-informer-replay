@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ReplayCollection.css';
 import PageNumbers from './PageNumbers.js';
 import ReplayEpisodeComponent from './ReplayEpisodeComponent.js';
@@ -6,17 +6,55 @@ import ReplayEpisode from '../classes/ReplayEpisode.js';
 import { addCommasToNumber } from '../utilities';
 
 function ReplayCollection() {
-    const [selectedEpisodes, setSelectedEpisodes] = useState(ReplayEpisode.collection);
+    const [selectedEpisodes, setSelectedEpisodes] = useState([]);
     const [currPage, setCurrPage] = useState(1);
     const [resultsPerPage, setResultsPerPage] = useState(10);
     const [isAscending, setIsAscending] = useState(false);
+    const [sortType, setSortType] = useState('airdate');
+    const [sort, setSort] = useState({
+        'isAscending': false, 'type': 'number',
+    });
+
+    useEffect(() => {
+        console.log("selectedEpisodes is changed");
+        console.log(`type: ${sortType}\ndirection: ${isAscending ? "ascending" : "descending"}`);
+        let newSelectedEpisodes = ReplayEpisode.collection.slice();
+        sortByType(newSelectedEpisodes);
+        setSelectedEpisodes(newSelectedEpisodes);
+    }, [isAscending, sortType]);
+
+    function sortByType(episodeArr) {
+        switch (sortType) {
+            case 'none': break;
+            case 'video-length':
+                episodeArr.sort((first, second) => first.videoLengthInSeconds - second.videoLengthInSeconds);
+                break;
+            case 'number':
+                episodeArr.sort((first, second) => first.number - second.number);
+                break;
+            case 'views':
+                break;
+            case 'likes':
+                break;
+            case 'like-ratio':
+                break;
+            case 'dislikes':
+                break;
+            case 'airdate':
+            default:
+                episodeArr.sort((first, second) => first.airdate - second.airdate);
+        }
+
+        if (!isAscending)
+            episodeArr.reverse();
+    }
 
     function createDisplayedEpisodesComponents() {
         if (!selectedEpisodes.length) return;
 
-        let episodesArr = [];
         const start = (currPage - 1) * resultsPerPage;
         const end = Math.min(start + resultsPerPage, selectedEpisodes.length);
+        let episodesArr = [];
         for (let i = start; i < end; i++) {
             episodesArr.push(
                 <ReplayEpisodeComponent
@@ -26,6 +64,9 @@ function ReplayCollection() {
             );
         }
         return episodesArr;
+
+        //return selectedEpisodes.slice(start, end)
+        //    .map((episode, index) => <ReplayEpisodeComponent key={index} replayEpisode={episode}/>);
     }
 
     function handleDisplayedVideosMessage() {
@@ -62,8 +103,8 @@ function ReplayCollection() {
                         <select
                             name="sort-type"
                             id="sort-type-select"
-                            value="airdate"
-                            onChange={(e) => { }}
+                            value={sortType}
+                            onChange={(e) => { setSortType(e.target.value) }}
                         >
                             <option value="none">-- Sort By --</option>
                             <option value="airdate">Air Date</option>

@@ -1,4 +1,12 @@
 /* -------------------------- */
+/* ---------- Main ---------- */
+/* -------------------------- */
+
+main {
+    margin: 0 .8em;
+}
+
+/* -------------------------- */
 /* ---------- Sort ---------- */
 /* -------------------------- */
 
@@ -8,6 +16,30 @@
     flex-wrap: wrap;
 }
 
-#sort-container select {
-    margin-left: .5em;
+#sort-container {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+#sort-container label {
+    padding: 0 .1em;
+}
+#sort-container label:last-child {
+    /*flex-basis:;*/
+}
+#sort-container label select {
+    display: block;
+    width: 100%;
+    background-color: var(--second-bg-color);
+    color: var(--second-text-color);
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+#number-displayed-container {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
 }

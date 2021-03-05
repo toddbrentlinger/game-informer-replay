@@ -97,20 +97,20 @@ function ReplayEpisodeComponent(props) {
 
     /**
      * 
-     * @param {String} key
-     * @param {Object[]} value
+     * @param {String} heading
+     * @param {Object[]} content
      */
-    function createSectionFromHeading(key, value) {
-        switch (key) {
+    function createSectionFromHeading(heading, content) {
+        switch (heading) {
             case 'see_also':
-                return createListOfLinks("see also", value, "https://replay.fandom.com")
+                return createListOfLinks("see also", content, "https://replay.fandom.com")
             case 'gallery':
                 return (
                     <div>
                         <h4>gallery</h4>
                         <div className="gallery-container">
                             {
-                                value.map(image => (
+                                content.map(image => (
                                     <div className="gallery-item">
                                         <figure>
                                             <figcaption>{image.caption}</figcaption>
@@ -136,8 +136,8 @@ function ReplayEpisodeComponent(props) {
             default:
                 return (
                     <div>
-                        <h4>{key.replace(/_/g, " ")}</h4>
-                        {createDetailsComponent(value)}
+                        <h4>{heading.replace(/_/g, " ")}</h4>
+                        {createDetailsComponent(content)}
                     </div>
                 );
         }
@@ -204,7 +204,7 @@ function ReplayEpisodeComponent(props) {
                 {
                     props.replayEpisode.otherHeadings
                         ? (Object.entries(props.replayEpisode.otherHeadings)
-                            .map(entry => createSectionFromHeading(entry[0], entry[1]))
+                            .map((entry, index) => createSectionFromHeading(entry[0], entry[1], index))
                         )
                         : null
                 }
