@@ -1,31 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './ReplayCollection.css';
 import PageNumbers from './PageNumbers.js';
 import ReplayEpisodeComponent from './ReplayEpisodeComponent.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRandom, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import ReplayEpisode from '../classes/ReplayEpisode.js';
-import { addCommasToNumber } from '../utilities';
+import { addCommasToNumber, shuffleArray } from '../utilities';
 
 function ReplayCollection() {
+    // States
+
     const [selectedEpisodes, setSelectedEpisodes] = useState([]);
     const [currPage, setCurrPage] = useState(1);
     const [resultsPerPage, setResultsPerPage] = useState(10);
     const [isAscending, setIsAscending] = useState(false);
     const [sortType, setSortType] = useState('airdate');
+    const [isShuffled, setIsShuffled] = useState(false);
     const [sort, setSort] = useState({
-        'isAscending': false, 'type': 'number',
+        'isAscending': false, 'type': 'number', 'isShuffled': false,
     });
 
+    // Refs
+
+    const sortDirectionRef = useRef(null);
+    const sortTypeRef = useRef(null);
+
+    // Effects
+
     useEffect(() => {
-        console.log("selectedEpisodes is changed");
-        console.log(`type: ${sortType}\ndirection: ${isAscending ? "ascending" : "descending"}`);
+        if (sortType === 'none') return;
+
         let newSelectedEpisodes = ReplayEpisode.collection.slice();
         sortByType(newSelectedEpisodes);
         setSelectedEpisodes(newSelectedEpisodes);
+        console.log("selectedEpisodes is changed");
     }, [isAscending, sortType]);
 
+    // Functions
+
+    function shuffleSelectedEpisodes() {
+        let newSelectedEpisodes = selectedEpisodes.slice();
+        shuffleArray(newSelectedEpisodes);
+        setSortType('none');
+        setSelectedEpisodes(newSelectedEpisodes);
+    }
+
+    function resetSelectedEpisodes() {
+
+    }
+
     function sortByType(episodeArr) {
+        // Sort by type in ascending order
         switch (sortType) {
-            case 'none': break;
+            case 'none': return;
             case 'video-length':
                 episodeArr.sort((first, second) => first.videoLengthInSeconds - second.videoLengthInSeconds);
                 break;
@@ -33,18 +60,23 @@ function ReplayCollection() {
                 episodeArr.sort((first, second) => first.number - second.number);
                 break;
             case 'views':
+                episodeArr.sort((first, second) => ReplayEpisode.compareReplayEpisodesByProperty(first, second, "views"));
                 break;
             case 'likes':
+                episodeArr.sort((first, second) => ReplayEpisode.compareReplayEpisodesByProperty(first, second, "likes"));
                 break;
             case 'like-ratio':
+                episodeArr.sort((first, second) => ReplayEpisode.compareReplayEpisodesByProperty(first, second, "likeRatio"));
                 break;
             case 'dislikes':
+                episodeArr.sort((first, second) => ReplayEpisode.compareReplayEpisodesByProperty(first, second, "dislikes"));
                 break;
             case 'airdate':
             default:
                 episodeArr.sort((first, second) => first.airdate - second.airdate);
         }
 
+        // Reverse if isAscending is false
         if (!isAscending)
             episodeArr.reverse();
     }
@@ -86,7 +118,22 @@ function ReplayCollection() {
     }
 
     return (
-        <main id="top-page">
+        <main>
+            <div id="misc-buttons-container">
+                <button
+                    className="custom-button"
+                    type="button"
+                    id="button-shuffle"
+                    onClick={shuffleSelectedEpisodes}
+                >
+                    <FontAwesomeIcon icon={faRandom} aria-hidden="true" />
+                    SHUFFLE
+                </button>
+                <button className="custom-button" type="button" id="button-reset-list">
+                    <FontAwesomeIcon icon={faSyncAlt} aria-hidden="true" />
+                    RESET LIST
+                </button>
+            </div>
             <PageNumbers
                 currPage={currPage}
                 resultsPerPage={resultsPerPage}
@@ -105,6 +152,7 @@ function ReplayCollection() {
                             id="sort-type-select"
                             value={sortType}
                             onChange={(e) => { setSortType(e.target.value) }}
+                            ref={sortTypeRef}
                         >
                             <option value="none">-- Sort By --</option>
                             <option value="airdate">Air Date</option>
@@ -123,6 +171,7 @@ function ReplayCollection() {
                             id="sort-direction-select"
                             value={isAscending ? "ascending" : "descending"}
                             onChange={(e) => { setIsAscending(e.target.value === "ascending"); }}
+                            ref={sortDirectionRef}
                         >
                             <option value="descending">Descending</option>
                             <option value="ascending">Ascending</option>

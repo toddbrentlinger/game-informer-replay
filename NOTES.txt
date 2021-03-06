@@ -9,14 +9,6 @@ X Use Set to get array of games played so do NOT have to check if every game is 
 
 Third Season Episodes: 302-307
 
-Spider-man Miles Morales 100 Combo:
-- Use camo
-- Change perks to help, such as camo hits count for 2x
-- Second combat challenge
-- Lower difficulty. Apparently lowest difficulty does not reset combo when hits
-- Find pipe guy and punch-slide-repeat
-- Triangle - Invisible - Dodge - Repeat
-
 PlayStation Network Sale (ends 3/10):
 LEGO Harry Potter Collection $5.99
 Little Nightmares Complete Edition $7.49

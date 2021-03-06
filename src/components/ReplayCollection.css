@@ -6,6 +6,21 @@ main {
     margin: 0 .8em;
 }
 
+/* ---------------------------------- */
+/* ---------- Misc Buttons ---------- */
+/* ---------------------------------- */
+
+#misc-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin: .6em 0;
+}
+#misc-buttons-container button {
+    width: 49%;
+    padding: 1em;
+}
+#misc-buttons-container button svg { margin-right: .3em; }
+
 /* -------------------------- */
 /* ---------- Sort ---------- */
 /* -------------------------- */

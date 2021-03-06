@@ -6,6 +6,7 @@ import FooterCustom from './components/FooterCustom.js';
 import ReplayEpisode from './classes/ReplayEpisode.js';
 import ReplayCollection from './components/ReplayCollection.js';
 import IsLoading from './components/IsLoading.js';
+import JumpToTop from './components/JumpToTop.js';
 
 /*
 const initialState = {
@@ -31,7 +32,7 @@ function App() {
         'superReplay': false,
         'testChamber': false,
     });
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
@@ -62,7 +63,9 @@ function App() {
                 </div>
                 <ToggleSwitch />
             </nav>
+            <div id="top-page"></div>
             {isLoading ? <IsLoading /> : <ReplayCollection />}
+            <JumpToTop />
             <FooterCustom />
         </div>
     );

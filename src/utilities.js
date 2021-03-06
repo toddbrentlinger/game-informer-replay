@@ -105,3 +105,16 @@ export function debounce(func, delay) {
         debounceTimer = setTimeout(() => func.apply(this, arguments), delay);
     };
 }
+
+export function shuffleArray(arr) {
+    let j, temp;
+    for (let i = arr.length - 1; i > 0; i--) {
+        // Pick a random index from 0 to i
+        j = Math.floor(Math.random() * (i + 1));
+
+        // Swap element at index i with element at random index j
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}

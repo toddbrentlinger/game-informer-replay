@@ -23,7 +23,7 @@ function ReplayEpisodeComponent(props) {
      * @param {String[]} content
      */
     function createSegmentComponent(title, className, segment, content) {
-        if (!segment) return;
+        if (!content) return;
 
         return (
             <div className={className}>
@@ -204,7 +204,7 @@ function ReplayEpisodeComponent(props) {
                 {
                     props.replayEpisode.otherHeadings
                         ? (Object.entries(props.replayEpisode.otherHeadings)
-                            .map((entry, index) => createSectionFromHeading(entry[0], entry[1], index))
+                            .map(entry => createSectionFromHeading(entry[0], entry[1]))
                         )
                         : null
                 }

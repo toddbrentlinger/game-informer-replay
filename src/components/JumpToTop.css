@@ -1,0 +1,29 @@
+#jump-top-page-container {
+    position: fixed;
+    right: .5em;
+    bottom: .5em;
+    cursor: pointer;
+}
+#jump-top-page-container > div {
+    background-color: var(--second-bg-color);
+    border-radius: 50%;
+}
+#jump-top-page-container > div > svg {
+    color: var(--second-text-color);
+    font-size: 2.3em;
+    padding: .05em .1em;
+}
+
+/* ------------------------------- */
+/* ---------- Dark Mode ---------- */
+/* ------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    #jump-top-page-container > a > i {
+        color: var(--main-text-color);
+    }
+}
+
+[data-theme="dark"] #jump-top-page-container i {
+    color: var(--main-text-color);
+}

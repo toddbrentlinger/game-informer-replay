@@ -303,4 +303,19 @@ export default class ReplayEpisode {
             this.addGameToGamesPlayed(replayEpisode.middleSegmentContent);
         }
     }
+
+    /**
+     * Passed as compare function into array sort method.
+     * @param {ReplayEpisode} first
+     * @param {ReplayEpisode} second
+     * @param {String} property
+     */
+    static compareReplayEpisodesByProperty(first, second, property) {
+        if (first[property] !== undefined && second[property] !== undefined)
+            return first[property] - second[property];
+        else if (first[property] !== undefined)
+            return 1;
+        else if (second[property] !== undefined)
+            return -1;
+    }
 }
