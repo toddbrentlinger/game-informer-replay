@@ -49,10 +49,44 @@ function App() {
             setIsLoading(false);
         });
     }, []);
+
+    function getSelectedChannelTitle() {
+        if (selectedChannel.replay)
+            return "Game Informer Replay";
+        if (selectedChannel.superReplay)
+            return "Game Informer Super Replay";
+        if (selectedChannel.testChamber)
+            return "Game Informer Test Chamber";
+        return;
+    }
+
+    function createImageHeader() {
+        let srcSet, src;
+        if (selectedChannel.replay) {
+            srcSet = "./images/replay-logo-alpha(2)_300.png 300w, ./images/replay-logo-alpha(2).png 610w";
+            src = "./images/replay-logo-alpha(2).png";
+        } else if (selectedChannel.superReplay) {
+
+        } else if (selectedChannel.testChamber) {
+
+        } else {
+            return;
+        }
+
+        return (
+            <img
+                srcSet={srcSet}
+                sizes="(max-width: 900px) 300px, 610px"
+                src={src}
+                alt={getSelectedChannelTitle() + " Logo"}
+                width="610"
+                height="214"
+            />
+        );
+    }
     
     return (
         <div className="App">
-            <header><h1>Game Informer</h1></header>
             <nav id="topnav">
                 <div id="category-select-btn-container">
                     <button
@@ -63,6 +97,8 @@ function App() {
                 </div>
                 <ToggleSwitch />
             </nav>
+            <header><h1>{getSelectedChannelTitle()}</h1></header>
+            {createImageHeader()}
             <div id="top-page"></div>
             {isLoading ? <IsLoading /> : <ReplayCollection />}
             <JumpToTop />

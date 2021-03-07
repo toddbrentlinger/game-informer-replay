@@ -1,11 +1,15 @@
 TODO: 
 X Use Set to get array of games played so do NOT have to check if every game is already in an array OR Map with title as key and count as property
 
-- Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplayEpisode, and eventually Test Chamber classes.
+- Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplayEpisode, and eventually TestChamber classes.
 
 - To find search terms, search for each property in ReplayEpisode instance. Need to check if property is string, array, or object. If string, return true if it contains search. If array, check each element. If object, check each property. Use recursive function.
 
 - Since currPage and resultsPerPage do NOT change selectedEpisodes but filter/sort/search do, put them in separate components.
+
+- Add useEffect with dependency of selectedEpisodes that changes video player. Pass video player function as property to ReplayCollection component.
+
+- Reference dropdown toggle used in GMM app to use on filter dropdown.
 
 Third Season Episodes: 302-307
 

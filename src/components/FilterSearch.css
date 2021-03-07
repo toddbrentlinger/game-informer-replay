@@ -1,0 +1,181 @@
+/* ---------------------------- */
+/* ---------- Search ---------- */
+/* ---------------------------- */
+
+#search-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#search-container {
+    order: 1;
+    width: 70%;
+    height: 80%;
+    display: flex;
+    font-size: 1em;
+    max-width: 28em;
+}
+#search-container input[type=text] {
+    flex: 4;
+    padding: .6em;
+    border: 2px solid var(--main-bg-color);
+    border-right: none;
+    border-radius: .5em 0 0 .5em;
+    background-color: var(--second-bg-color);
+    color: var(--second-text-color);
+}
+#search-container button {
+    flex: 1;
+    border-radius: 0 .5em .5em 0;
+}
+
+/* --------------------------------- */
+/* ---------- Filter Form ---------- */
+/* --------------------------------- */
+
+/* Filter Display Toggle Button */
+#filter-display-toggle-button {
+    width: 25%;
+    padding: 1em;
+    text-align: left;
+}
+#filter-display-toggle-button.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+#filter-display-toggle-button.active:after {
+    content: "\2212";
+}
+#filter-display-toggle-button:after {
+    content: '\002B';
+    color: var(--main-text-color);
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+    font-size: 1.2em;
+}
+#filter-display-toggle-button > svg { margin-right: .3em; }
+#filter-display-toggle-button.active + form {
+    border: 2px solid var(--main-bg-color);
+    border-radius: 0 .5em .5em .5em;
+}
+
+#filterForm {
+    order: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 1em;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+#filterForm > fieldset {
+    /*display: inline-block;*/
+    padding: .4em;
+    border-color: var(--main-bg-color);
+    border-radius: .5em;
+    margin: 0 2px;
+}
+
+#filterForm > fieldset:last-child { margin-bottom: 1em; }
+
+#filterForm > fieldset legend {
+    /*cursor: pointer;*/
+    margin: 0 auto;
+}
+
+#filterForm fieldset ul {
+    list-style-type: none;
+    padding: 0; /* remove default padding for ul elements */
+    margin: 0; /* remove default margin for ul elements */
+    /*
+    max-height: 0;
+    overflow: hidden;
+    */
+}
+#filterForm fieldset ul.active { /*height: auto;*/ }
+
+/* Checkbox */
+/* Customize the label */
+#filterForm label {
+    display: block;
+    position: relative;
+    padding-right: 25px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: right;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+/* Hide the browser's default checkbox */
+#filterForm label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 20px;
+    width: 20px;
+    border-radius: 3px;
+    border: 2px solid var(--main-bg-color);
+    background-color: #eee;
+}
+/* On mouse-over, add a grey background color */
+#filterForm label:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+/* When the checkbox is checked, add a blue background */
+#filterForm label input:checked ~ .checkmark {
+    background-color: var(--main-bg-color);
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+/* Show the checkmark when checked */
+#filterForm label input:checked ~ .checkmark:after {
+    display: block;
+}
+/* Style the checkmark/indicator */
+#filterForm label .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 7px;
+    height: 12px;
+    border: solid var(--main-text-color);
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
+
+/* Filter: gi-crew-field */
+#gi-crew-field ul { column-count: 3; }
+
+/* Filter Form Buttons */
+#filterSubmitButton {
+    width: 100%;
+    padding: .5em 0;
+}
+#filterSubmitButton > button {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+    padding: 1em;
+}

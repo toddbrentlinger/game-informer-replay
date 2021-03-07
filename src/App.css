@@ -12,10 +12,26 @@
 
 /* Header */
 
-/* Hide h1 inside header but still accessible for readers */
-header h1 {
-    display: none;
+header {
+    background-image: url("./images/Game_Informer_logo_(2010-present)_1024.png");
+    background-color: var(--second-bg-color);
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    width: 100%;
+    padding-top: 18.29%;
 }
+
+header + img {
+    width: 50%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Hide h1 inside header but still accessible for readers */
+header h1 { display: none; }
 
 /* Top Navigation */
 
@@ -75,4 +91,18 @@ main {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ------------------------------- */
+/* ---------- Dark Mode ---------- */
+/* ------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+    header {
+        background-image: url("./images/Game_Informer_logo_(2010-present)_1024(dark_mode).png");
+    }
+}
+
+[data-theme="dark"] header {
+    background-image: url("./images/Game_Informer_logo_(2010-present)_1024(dark_mode).png");
 }

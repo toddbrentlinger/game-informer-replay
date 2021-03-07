@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRandom, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import ReplayEpisode from '../classes/ReplayEpisode.js';
 import { addCommasToNumber, shuffleArray } from '../utilities';
+import FilterSearch from './FilterSearch.js';
 
 function ReplayCollection() {
     // States
@@ -19,11 +20,6 @@ function ReplayCollection() {
     const [sort, setSort] = useState({
         'isAscending': false, 'type': 'number', 'isShuffled': false,
     });
-
-    // Refs
-
-    const sortDirectionRef = useRef(null);
-    const sortTypeRef = useRef(null);
 
     // Effects
 
@@ -119,6 +115,7 @@ function ReplayCollection() {
 
     return (
         <main>
+            <FilterSearch />
             <div id="misc-buttons-container">
                 <button
                     className="custom-button"
@@ -152,7 +149,6 @@ function ReplayCollection() {
                             id="sort-type-select"
                             value={sortType}
                             onChange={(e) => { setSortType(e.target.value) }}
-                            ref={sortTypeRef}
                         >
                             <option value="none">-- Sort By --</option>
                             <option value="airdate">Air Date</option>
@@ -171,7 +167,6 @@ function ReplayCollection() {
                             id="sort-direction-select"
                             value={isAscending ? "ascending" : "descending"}
                             onChange={(e) => { setIsAscending(e.target.value === "ascending"); }}
-                            ref={sortDirectionRef}
                         >
                             <option value="descending">Descending</option>
                             <option value="ascending">Ascending</option>

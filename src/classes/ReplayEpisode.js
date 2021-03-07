@@ -127,7 +127,8 @@ export default class ReplayEpisode {
         if (this.likes) ReplayEpisode.totalLikes += this.likes;
         if (this.dislikes) ReplayEpisode.totalDislikes += this.dislikes;
         ReplayEpisode.checkGamesInEpisode(this);
-
+        ReplayEpisode.addCrewToGICrew(this.host);
+        ReplayEpisode.addCrewToGICrew(this.featuring);
     }
 
     // -----------------------------
@@ -236,6 +237,8 @@ export default class ReplayEpisode {
     static totalLikes = 0;
     static totalDislikes = 0;
     static gamesPlayed = new Map();
+    static giCrew = new Map();
+    static segments = new Map();
 
     // ------------------------------------
     // ---------- Static Methods ----------
@@ -276,6 +279,10 @@ export default class ReplayEpisode {
         }
     }
 
+    /**
+     * 
+     * @param {ReplayEpisode} replayEpisode
+     */
     static checkGamesInEpisode(replayEpisode) {
         // Main Segment
         if (replayEpisode.mainSegmentGames) {
@@ -302,6 +309,39 @@ export default class ReplayEpisode {
             // If reach this point, check game title
             this.addGameToGamesPlayed(replayEpisode.middleSegmentContent);
         }
+    }
+
+    /**
+     * 
+     * @param {String[]} crewArr
+     */
+    static addCrewToGICrew(crewArr) {
+        if (crewArr === undefined) return;
+
+        for (const name of crewArr) {
+            if (this.giCrew.has(name))
+                this.giCrew.set(name, this.giCrew.get(name) + 1);
+            else
+                this.giCrew.set(name, 1);
+        }
+    }
+
+    /**
+     * Returns array of objects with crew name and appearance count filtered
+     * by more than one appearance and sorted alphabetically.
+     * @returns {Object[]}
+     * */
+    static getGICrewForFilterForm() {
+        return Array.from(this.giCrew, crew => { return { 'name': crew[0], 'count': crew[1] };})
+            .filter(crew => crew.count > 1)
+            .sort((first, second) => {
+                if (first.name < second.name)
+                    return -1;
+                else if (first.name > second.name)
+                    return 1;
+                else
+                    return 0;
+            });
     }
 
     /**
