@@ -129,6 +129,7 @@ export default class ReplayEpisode {
         ReplayEpisode.checkGamesInEpisode(this);
         ReplayEpisode.addCrewToGICrew(this.host);
         ReplayEpisode.addCrewToGICrew(this.featuring);
+        ReplayEpisode.checkSegmentsInEpisode(this);
     }
 
     // -----------------------------
@@ -200,33 +201,6 @@ export default class ReplayEpisode {
             ', ' + this.airdate.getFullYear();
     }
 
-    /**
-     * 
-     * @param {String} segment
-     * @returns {String}
-     * @todo Perhaps make static method?
-     */
-    getSegmentTitle(segment) {
-        // If segment is empty, there is no segment, return empty string
-        if (segment && typeof segment === 'string' && segment.length === 0)
-            return null;
-
-        switch (segment) {
-            case 'RR': return 'Replay Roulette';
-            case 'SRS': return 'Super Replay Showdown';
-            case 'YDIW': return "You're Doing It Wrong";
-            case 'ST': return 'Stress Test';
-            case 'RP': return 'RePorted';
-            case 'DP': return 'Developer Pick';
-            case '2037': return 'Replay 2037';
-            case 'HF': return 'Horror Fest';
-            case 'RRL': return 'Replay Real Life';
-            default: return segment;
-            // Other Segments: GI Versus, Developer Spotlight, 
-            // Reevesplay, Moments
-        }
-    }
-
     // ---------------------------------------
     // ---------- Static Properties ----------
     // ---------------------------------------
@@ -265,6 +239,32 @@ export default class ReplayEpisode {
         return linkSourceKey
             ? ` on ${linkSourceOptions[linkSourceKey]}`
             : null;
+    }
+
+    /**
+     * 
+     * @param {String} segment
+     * @returns {String}
+     */
+    static getSegmentTitle(segment) {
+        // If segment is empty, there is no segment, return empty string
+        if (segment && typeof segment === 'string' && segment.length === 0)
+            return null;
+
+        switch (segment) {
+            case 'RR': return 'Replay Roulette';
+            case 'SRS': return 'Super Replay Showdown';
+            case 'YDIW': return "You're Doing It Wrong";
+            case 'ST': return 'Stress Test';
+            case 'RP': return 'RePorted';
+            case 'DP': return 'Developer Pick';
+            case '2037': return 'Replay 2037';
+            case 'HF': return 'Horror Fest';
+            case 'RRL': return 'Replay Real Life';
+            default: return segment;
+            // Other Segments: GI Versus, Developer Spotlight, 
+            // Reevesplay, Moments
+        }
     }
 
     /**
@@ -338,6 +338,48 @@ export default class ReplayEpisode {
                 if (first.name < second.name)
                     return -1;
                 else if (first.name > second.name)
+                    return 1;
+                else
+                    return 0;
+            });
+    }
+
+    static addSegment(segmentTitle) {
+        if (this.segments.has(segmentTitle)) {
+            this.segments.set(segmentTitle, this.segments.get(segmentTitle) + 1);
+        } else {
+            this.segments.set(segmentTitle, 1);
+        }
+    }
+
+    static checkSegmentsInEpisode(replayEpisode) {
+        // Middle Segment
+        if (replayEpisode.middleSegment || replayEpisode.middleSegmentContent) {
+            let segmentTitle = replayEpisode.middleSegment || replayEpisode.middleSegmentContent;
+            // Check if Ad
+            if (segmentTitle.endsWith('Ad'))
+                segmentTitle = 'Ad';
+            this.addSegment(segmentTitle);
+        }
+        // Second Segment
+        if (replayEpisode.secondSegment)
+            this.addSegment(replayEpisode.secondSegment);
+    }
+
+    /**
+     * Returns array of objects with segment name and appearance count filtered
+     * by more than one appearance and sorted alphabetically.
+     * @returns {Object[]}
+     * */
+    static getSegmentsForFilterForm() {
+        return Array.from(this.segments, segment => { return { 'name': segment[0], 'count': segment[1] }; })
+            .filter(segment => segment.count > 1)
+            .sort((first, second) => {
+                const firstTitle = this.getSegmentTitle(first.name);
+                const secondTitle = this.getSegmentTitle(second.name);
+                if (firstTitle < secondTitle)
+                    return -1;
+                if (firstTitle > secondTitle)
                     return 1;
                 else
                     return 0;

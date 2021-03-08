@@ -1,38 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './FilterSearch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faSlidersH } from '@fortawesome/free-solid-svg-icons';
+import ReplayEpisode from '../classes/ReplayEpisode';
 
 function FilterSearch(props) {
+    const [isActive, setIsActive] = useState(false);
     const filterFormRef = useRef(null);
+
+    useEffect(() => {
+        filterFormRef.current.style.maxHeight =
+            isActive
+                ? filterFormRef.current.scrollHeight + 12 + "px"
+                : null;
+    }, [isActive]);
 
     /**
      * 
      * @param {String} name
-     * @param {String} value
-     * @param {String} label
+     * @param {String|Number} value
+     * @param {String|Number} label
      */
-    function createFieldsetLabel(name, value, label) {
+    function createSingleFieldListElement(name, value, label) {
         if (label === undefined)
             label = value;
-
-        return (
-            <label>
-                {label}
-                <input type="checkbox" name={name} value={value} />
-                <span className="checkmark"></span>
-            </label>
-        );
-    }
-
-    function createSingleSeasonFieldListElement(str, value) {
-        if (value === undefined)
-            value = parseInt(str, 10);
         return (
             <li key={value}>
                 <label>
-                    {str}
-                    <input type="checkbox" name="season" value={value} />
+                    {label}
+                    <input type="checkbox" name={name} value={value} />
                     <span className="checkmark"></span>
                 </label>
             </li>
@@ -42,13 +38,39 @@ function FilterSearch(props) {
     function createSeasonFieldListElements() {
         let fieldListElements = [];
         for (let i = 1; i <= 6; i++) {
-            fieldListElements.push(createSingleSeasonFieldListElement(i))
+            fieldListElements.push(createSingleFieldListElement("season", i.toString()));
         }
-        fieldListElements.push(createSingleSeasonFieldListElement("Special", 0));
+        fieldListElements.push(createSingleFieldListElement("season", 0, "Special"));
 
         return (
             <ul>{fieldListElements}</ul>
         );
+    }
+
+    function createYearFieldListElements() {
+        const currentYear = new Date().getFullYear();
+        let fieldListElements = [];
+        for (let i = 2010; i <= currentYear; i++) {
+            fieldListElements.push(createSingleFieldListElement("year", i.toString()));
+        }
+
+        return (<ul>{fieldListElements}</ul>);
+    }
+
+    function createSegmentFieldListElements() {
+        const fieldListElements = ReplayEpisode.getSegmentsForFilterForm()
+            .map(
+                segment => createSingleFieldListElement("segment", segment.name, `${ReplayEpisode.getSegmentTitle(segment.name)} (${segment.count})`)
+            );
+        return (<ul>{fieldListElements}</ul>);
+    }
+
+    function createGICrewFieldListElements() {
+        const fieldListElements = ReplayEpisode.getGICrewForFilterForm()
+            .map(
+                person => createSingleFieldListElement("giCrew", person.name, `${person.name} (${person.count})`)
+            );
+        return (<ul>{fieldListElements}</ul>);
     }
 
     return (
@@ -62,15 +84,8 @@ function FilterSearch(props) {
 
             <button
                 id="filter-display-toggle-button"
-                className="custom-button collapsible"
-                onClick={
-                    () => {
-                        filterFormRef.current.style.maxHeight = 
-                            filterFormRef.current.style.maxHeight
-                                ? null
-                                : filterFormRef.current.scrollHeight + 12 + "px";
-                    }
-                }
+                className={"custom-button collapsible" + (isActive ? " active" : null)}
+                onClick={() => setIsActive(prevState => !prevState)}
             >
                 <FontAwesomeIcon icon={faSlidersH} aria-hidden="true" />
                 FILTER
@@ -99,17 +114,17 @@ function FilterSearch(props) {
 
                 <fieldset form="filterForm" id="year-field">
                     <legend>Year: </legend>
-                    <ul></ul>
+                    {createYearFieldListElements()}
                 </fieldset>
 
                 <fieldset form="filterForm" id="segment-field">
                     <legend>Segment: </legend>
-                    <ul></ul>
+                    {createSegmentFieldListElements()}
                 </fieldset>
 
                 <fieldset form="filterForm" id="gi-crew-field">
                     <legend>GI Crew: </legend>
-                    <ul></ul>
+                    {createGICrewFieldListElements()}
                 </fieldset>
             </form>
         </div>

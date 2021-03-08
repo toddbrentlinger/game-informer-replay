@@ -11,44 +11,44 @@ import FilterSearch from './FilterSearch.js';
 function ReplayCollection() {
     // States
 
-    const [selectedEpisodes, setSelectedEpisodes] = useState([]);
+    const [selectedEpisodes, setSelectedEpisodes] = useState(ReplayEpisode.collection);
     const [currPage, setCurrPage] = useState(1);
     const [resultsPerPage, setResultsPerPage] = useState(10);
-    const [isAscending, setIsAscending] = useState(false);
-    const [sortType, setSortType] = useState('airdate');
-    const [isShuffled, setIsShuffled] = useState(false);
+    //const [isAscending, setIsAscending] = useState(false);
+    //const [sortType, setSortType] = useState('airdate');
     const [sort, setSort] = useState({
-        'isAscending': false, 'type': 'number', 'isShuffled': false,
+        'isAscending': false, 'type': 'airdate',
     });
+    const [filter, setFilter] = useState();
 
     // Effects
 
     useEffect(() => {
-        if (sortType === 'none') return;
+        if (sort.type === 'none') return;
 
-        let newSelectedEpisodes = ReplayEpisode.collection.slice();
+        let newSelectedEpisodes = selectedEpisodes.slice();
         sortByType(newSelectedEpisodes);
         setSelectedEpisodes(newSelectedEpisodes);
         console.log("selectedEpisodes is changed");
-    }, [isAscending, sortType]);
+    }, [sort]);
 
     // Functions
 
     function shuffleSelectedEpisodes() {
         let newSelectedEpisodes = selectedEpisodes.slice();
         shuffleArray(newSelectedEpisodes);
-        setSortType('none');
+        setSort({ ...sort, 'type': 'none' });
         setSelectedEpisodes(newSelectedEpisodes);
     }
 
     function resetSelectedEpisodes() {
-
+        setSort({ 'isAscending': false, 'type': 'airdate',});
     }
 
     function sortByType(episodeArr) {
         // Sort by type in ascending order
-        switch (sortType) {
-            case 'none': return;
+        switch (sort.type) {
+            case 'none': break;
             case 'video-length':
                 episodeArr.sort((first, second) => first.videoLengthInSeconds - second.videoLengthInSeconds);
                 break;
@@ -73,7 +73,7 @@ function ReplayCollection() {
         }
 
         // Reverse if isAscending is false
-        if (!isAscending)
+        if (!sort.isAscending)
             episodeArr.reverse();
     }
 
@@ -126,7 +126,12 @@ function ReplayCollection() {
                     <FontAwesomeIcon icon={faRandom} aria-hidden="true" />
                     SHUFFLE
                 </button>
-                <button className="custom-button" type="button" id="button-reset-list">
+                <button
+                    className="custom-button"
+                    type="button"
+                    id="button-reset-list"
+                    onClick={resetSelectedEpisodes}
+                >
                     <FontAwesomeIcon icon={faSyncAlt} aria-hidden="true" />
                     RESET LIST
                 </button>
@@ -147,8 +152,10 @@ function ReplayCollection() {
                         <select
                             name="sort-type"
                             id="sort-type-select"
-                            value={sortType}
-                            onChange={(e) => { setSortType(e.target.value) }}
+                            value={sort.type}
+                            onChange={(e) => {
+                                setSort({ ...sort, 'type': e.target.value});
+                            }}
                         >
                             <option value="none">-- Sort By --</option>
                             <option value="airdate">Air Date</option>
@@ -165,8 +172,11 @@ function ReplayCollection() {
                         <select
                             name="sort-direction"
                             id="sort-direction-select"
-                            value={isAscending ? "ascending" : "descending"}
-                            onChange={(e) => { setIsAscending(e.target.value === "ascending"); }}
+                            value={sort.isAscending ? "ascending" : "descending"}
+                            onChange={(e) => {
+                                setSort({ ...sort, 'isAscending': e.target.value === "ascending"});
+                                
+                            }}
                         >
                             <option value="descending">Descending</option>
                             <option value="ascending">Ascending</option>

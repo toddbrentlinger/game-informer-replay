@@ -29,7 +29,7 @@ function ReplayEpisodeComponent(props) {
             <div className={className}>
                 <b>{`${title}: `}</b>
                 {
-                    props.replayEpisode.getSegmentTitle(segment)
+                    ReplayEpisode.getSegmentTitle(segment)
                     + (content
                         ? ` - ${listArrayAsString(content)}`
                         : null)
