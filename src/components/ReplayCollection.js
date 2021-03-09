@@ -19,7 +19,13 @@ function ReplayCollection() {
     const [sort, setSort] = useState({
         'isAscending': false, 'type': 'airdate',
     });
-    const [filter, setFilter] = useState();
+    const [filter, setFilter] = useState({
+        'search': null,
+        'season': new Set(),
+        'year': new Set(),
+        'segment': new Set(),
+        'giCrew': new Set(),
+    });
 
     // Effects
 
@@ -29,7 +35,7 @@ function ReplayCollection() {
         let newSelectedEpisodes = selectedEpisodes.slice();
         sortByType(newSelectedEpisodes);
         setSelectedEpisodes(newSelectedEpisodes);
-        console.log("selectedEpisodes is changed");
+        console.log("selectedEpisodes is changed after sort");
     }, [sort]);
 
     // Functions
@@ -42,7 +48,8 @@ function ReplayCollection() {
     }
 
     function resetSelectedEpisodes() {
-        setSort({ 'isAscending': false, 'type': 'airdate',});
+        setSort({ 'isAscending': false, 'type': 'airdate', });
+        handleFilterFormReset();
     }
 
     function sortByType(episodeArr) {
@@ -77,6 +84,74 @@ function ReplayCollection() {
             episodeArr.reverse();
     }
 
+    // TEMP
+    useEffect(() => {
+        //console.log('Filter has changed');
+        //console.log(filter);
+
+        let newSelectedEpisodes = ReplayEpisode.collection.slice();
+        sortByType(newSelectedEpisodes);
+        if (isFilterEmpty())
+            setSelectedEpisodes(newSelectedEpisodes);
+        else
+            setSelectedEpisodes(filterReplayEpisodes(newSelectedEpisodes));
+        console.log("selectedEpisodes is changed after filter");
+    }, [filter]);
+
+    function handleFilterFormChange(e) {
+        const name = e.target.name; // filter object key
+        const value = e.target.value; // value to add/remove to set
+        const isChecked = e.target.checked; // bool to add/remove value from set
+        //console.log(`Name: ${name}\nValue: ${value}\nChecked: ${isChecked}`);
+        setFilter(prevState => {
+            if (isChecked && !prevState[name].has(value)) {
+                let newSet = new Set(prevState[name])
+                return { ...prevState, [name]: newSet.add(value) };
+            }
+            if (!isChecked && prevState[name].has(value)) {
+                let newSet = new Set(prevState[name]);
+                newSet.delete(value);
+                return { ...prevState, [name]: newSet };
+            }
+            return prevState;
+        });
+    }
+
+    function handleFilterFormReset() {
+        setFilter({
+            'search': null,
+            'season': new Set(),
+            'year': new Set(),
+            'segment': new Set(),
+            'giCrew': new Set(),
+        });
+    }
+
+    function filterReplayEpisodes(replayEpisodesArr) {
+        return replayEpisodesArr.filter(episode => {
+            // Search
+            // Season
+            if (filter.season.has(episode.getReplaySeason()[0].toString()))
+                return true;
+            // Year
+            if (filter.year.has(episode.airdate.getFullYear().toString()))
+                return true;
+            // Segment
+            // GI Crew
+        });
+    }
+
+    function isFilterEmpty() {
+        return Object.values(filter).every(value => {
+            if (!value)
+                return true;
+            if (typeof value === 'string')
+                return !value.length;
+            if (value instanceof Set)
+                return !value.size;
+        });
+    }
+
     function createDisplayedEpisodesComponents() {
         if (!selectedEpisodes.length) return;
 
@@ -99,9 +174,9 @@ function ReplayCollection() {
 
     function handleDisplayedVideosMessage() {
         const start = (currPage - 1) * resultsPerPage;
-        const end = Math.min(start + resultsPerPage, ReplayEpisode.collection.length);
+        const end = Math.min(start + resultsPerPage, selectedEpisodes.length);
 
-        return `Showing ${start + 1} - ${end} of ${ReplayEpisode.collection.length} Replay episodes`;
+        return `Showing ${start + 1} - ${end} of ${selectedEpisodes.length} Replay episodes`;
     }
 
     function createTotalTimeMessage() {
@@ -115,7 +190,10 @@ function ReplayCollection() {
 
     return (
         <main>
-            <FilterSearch />
+            <FilterSearch
+                onChange={handleFilterFormChange}
+                onReset={handleFilterFormReset}
+            />
             <div id="misc-buttons-container">
                 <button
                     className="custom-button"
@@ -140,7 +218,7 @@ function ReplayCollection() {
                 currPage={currPage}
                 resultsPerPage={resultsPerPage}
                 setCurrPage={setCurrPage}
-                maxResults={ReplayEpisode.collection.length}
+                maxResults={selectedEpisodes.length}
             />
             <div id="sort-main">
                 <div id="number-displayed-container">
@@ -204,7 +282,7 @@ function ReplayCollection() {
                 currPage={currPage}
                 resultsPerPage={resultsPerPage}
                 setCurrPage={setCurrPage}
-                maxResults={ReplayEpisode.collection.length}
+                maxResults={selectedEpisodes.length}
                 scrollToTop={true}
             />
             <div id="stats">

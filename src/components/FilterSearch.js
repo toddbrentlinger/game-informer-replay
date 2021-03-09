@@ -93,8 +93,8 @@ function FilterSearch(props) {
             <form
                 id="filterForm"
                 ref={filterFormRef}
-                onChange={() => { }}
-                onReset={() => { }}
+                onChange={(e) => props.onChange(e)}
+                onReset={props.onReset}
             >
                 <div id="filterSubmitButton">
                     <button
