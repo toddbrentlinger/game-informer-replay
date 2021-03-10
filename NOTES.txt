@@ -11,6 +11,11 @@ X Use Set to get array of games played so do NOT have to check if every game is 
 
 - Reference dropdown toggle used in GMM app to use on filter dropdown.
 
+- ISSUE: Filter form does NOT reset checkboxes when 'Reset List' button is clicked.
+SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or utilize useContext hook?
+
+- Use npm package react-player for YouTube video player
+
 Third Season Episodes: 302-307
 
 PlayStation Network Sale (ends 3/10):
@@ -18,7 +23,7 @@ LEGO Harry Potter Collection $5.99
 Little Nightmares Complete Edition $7.49
 The Witness $9.99
 
-Tiffany Chan
+Tiffany Chan consulting  
 Delirium
 Ceroquil clear delirium small dose 
 Short term weight loss

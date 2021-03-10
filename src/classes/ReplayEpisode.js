@@ -201,6 +201,44 @@ export default class ReplayEpisode {
             ', ' + this.airdate.getFullYear();
     }
 
+    /**
+     * Returns true if Replay episode contains GI crew, else false.
+     * @param {String} name
+     * @returns {Boolean}
+     */
+    containsCrew(name) {
+        // Host
+        if (this.host && this.host.includes(name))
+            return true; 
+        // Featuring
+        if (this.featuring && this.featuring.includes(name))
+            return true;
+        // If reach here, return false
+        return false;
+    }
+
+    /**
+     * Returns true if Replay episode contains segment, else false.
+     * @param {String} segmentName
+     * @returns {Boolean}
+     */
+    containsSegment(segmentName) {
+        // Middle Segment
+        if (this.middleSegment || this.middleSegmentContent) {
+            let middleSegmentTitle = this.middleSegment || this.middleSegmentContent;
+            // Check if Ad
+            if (middleSegmentTitle.endsWith('Ad'))
+                middleSegmentTitle = 'Ad';
+            if (middleSegmentTitle === segmentName)
+                return true;
+        }
+        // Second Segment
+        if (this.secondSegment && this.secondSegment === segmentName)
+            return true;
+        // If reach here, return false
+        return false;
+    }  
+
     // ---------------------------------------
     // ---------- Static Properties ----------
     // ---------------------------------------

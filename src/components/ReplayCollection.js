@@ -38,6 +38,19 @@ function ReplayCollection() {
         console.log("selectedEpisodes is changed after sort");
     }, [sort]);
 
+    useEffect(() => {
+        //console.log('Filter has changed');
+        //console.log(filter);
+
+        let newSelectedEpisodes = ReplayEpisode.collection.slice();
+        sortByType(newSelectedEpisodes);
+        if (isFilterEmpty())
+            setSelectedEpisodes(newSelectedEpisodes);
+        else
+            setSelectedEpisodes(filterReplayEpisodes(newSelectedEpisodes));
+        console.log("selectedEpisodes is changed after filter");
+    }, [filter]);
+
     // Functions
 
     function shuffleSelectedEpisodes() {
@@ -84,20 +97,6 @@ function ReplayCollection() {
             episodeArr.reverse();
     }
 
-    // TEMP
-    useEffect(() => {
-        //console.log('Filter has changed');
-        //console.log(filter);
-
-        let newSelectedEpisodes = ReplayEpisode.collection.slice();
-        sortByType(newSelectedEpisodes);
-        if (isFilterEmpty())
-            setSelectedEpisodes(newSelectedEpisodes);
-        else
-            setSelectedEpisodes(filterReplayEpisodes(newSelectedEpisodes));
-        console.log("selectedEpisodes is changed after filter");
-    }, [filter]);
-
     function handleFilterFormChange(e) {
         const name = e.target.name; // filter object key
         const value = e.target.value; // value to add/remove to set
@@ -137,7 +136,15 @@ function ReplayCollection() {
             if (filter.year.has(episode.airdate.getFullYear().toString()))
                 return true;
             // Segment
+            for (const segment of filter.segment.values()) {
+                if (episode.containsSegment(segment))
+                    return true;
+            }
             // GI Crew
+            for (const name of filter.giCrew.values()) {
+                if (episode.containsCrew(name))
+                    return true;
+            }
         });
     }
 
