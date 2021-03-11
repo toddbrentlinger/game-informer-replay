@@ -7,6 +7,7 @@ import ReplayEpisode from '../classes/ReplayEpisode';
 function FilterSearch(props) {
     const [isActive, setIsActive] = useState(false);
     const filterFormRef = useRef(null);
+    const searchInputRef = useRef(null);
 
     useEffect(() => {
         filterFormRef.current.style.maxHeight =
@@ -73,11 +74,30 @@ function FilterSearch(props) {
         return (<ul>{fieldListElements}</ul>);
     }
 
+    function handleSearchOnKeyUp(e) {
+        // No. 13 is 'enter' key
+        if (e.keyCode === 13) {
+            e.preventDefault(); // Cancel default action, if needed
+            props.onSearch(searchInputRef.current.value);
+        }
+    }
+
     return (
         <div id="search-filter-container">
-                <div id="search-container">
-                <input type="text" placeholder="Search..." required />
-                <button className="custom-button" type="button" aria-label="search">
+            <div id="search-container">
+                <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search..."
+                    required
+                    onKeyUp={(e) => handleSearchOnKeyUp(e)}
+                />
+                <button
+                    className="custom-button"
+                    type="button"
+                    aria-label="search"
+                    onClick={() => { props.onSearch(searchInputRef.current.value); }}
+                >
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
             </div>

@@ -237,7 +237,35 @@ export default class ReplayEpisode {
             return true;
         // If reach here, return false
         return false;
-    }  
+    }
+
+    /**
+     * Recursive function to search each property of class instance.
+     * @param {String} searchTerm
+     * @param {any} obj
+     * @returns {Boolean}
+     */
+    containsSearchTerm(searchTerm, obj = this) {
+        // String
+        if (typeof obj === 'string') {
+            return obj.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        // Number
+        if (typeof obj === 'number') {
+            return obj.toString().includes(searchTerm.toLowerCase());
+        }
+        // Array
+        if (Array.isArray(obj)) {
+            return obj.some(element => this.containsSearchTerm(searchTerm, element));
+        }
+        // Object
+        if (typeof obj === 'object' && obj !== null) {
+            return Array.from(Object.values(obj))
+                .some(value => this.containsSearchTerm(searchTerm, value));
+        }
+        // Other
+        return false;
+    }
 
     // ---------------------------------------
     // ---------- Static Properties ----------

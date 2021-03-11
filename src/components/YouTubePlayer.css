@@ -1,0 +1,37 @@
+/* ------------------------------------ */
+/* ---------- YouTube Player ---------- */
+/* ------------------------------------ */
+
+#video-player-container { 
+    margin: 0 .8em;
+    padding-top: .5em;
+}
+
+#videoPlayer {
+    /*position: fixed;
+    top: 0;
+    left: 0;*/
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background-color: #000;
+    /*border: 5px solid black;*/
+    z-index: 100;
+}
+#videoPlayer .iframeWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* calc(56.25vw) */
+    /*max-height: calc(-169px + 100vh);
+    min-height: 480px;
+    padding-top: 56.25%;
+    margin: 0 auto;
+    background: #000;*/
+}
+#videoPlayer .iframeWrapper iframe {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+}

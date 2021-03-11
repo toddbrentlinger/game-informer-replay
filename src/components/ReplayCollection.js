@@ -126,9 +126,17 @@ function ReplayCollection() {
         });
     }
 
+    function handleSearch(searchTerm) {
+        setFilter(prevState => {
+            return { ...prevState, 'search': searchTerm };
+        });
+    }
+
     function filterReplayEpisodes(replayEpisodesArr) {
         return replayEpisodesArr.filter(episode => {
             // Search
+            if (filter.search && episode.containsSearchTerm(filter.search))
+                return true;
             // Season
             if (filter.season.has(episode.getReplaySeason()[0].toString()))
                 return true;
@@ -200,6 +208,7 @@ function ReplayCollection() {
             <FilterSearch
                 onChange={handleFilterFormChange}
                 onReset={handleFilterFormReset}
+                onSearch={handleSearch}
             />
             <div id="misc-buttons-container">
                 <button

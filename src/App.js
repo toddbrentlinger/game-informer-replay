@@ -7,6 +7,7 @@ import ReplayEpisode from './classes/ReplayEpisode.js';
 import ReplayCollection from './components/ReplayCollection.js';
 import IsLoading from './components/IsLoading.js';
 import JumpToTop from './components/JumpToTop.js';
+import YouTubePlayer from './components/YouTubePlayer.js';
 
 /*
 const initialState = {
@@ -99,6 +100,9 @@ function App() {
             </nav>
             <header><h1>{getSelectedChannelTitle()}</h1></header>
             {createImageHeader()}
+            <div id="video-player-container">
+                <YouTubePlayer />
+            </div>
             <div id="top-page"></div>
             {isLoading ? <IsLoading /> : <ReplayCollection />}
             <JumpToTop />
