@@ -16,6 +16,12 @@ function FilterSearch(props) {
                 : null;
     }, [isActive]);
 
+    function clear() {
+        console.log('FilterSearch clear() starts');
+        filterFormRef.current.reset();
+        searchInputRef.current.value = "";
+    }
+
     /**
      * 
      * @param {String} name
@@ -43,9 +49,7 @@ function FilterSearch(props) {
         }
         fieldListElements.push(createSingleFieldListElement("season", 0, "Special"));
 
-        return (
-            <ul>{fieldListElements}</ul>
-        );
+        return (<ul>{fieldListElements}</ul>);
     }
 
     function createYearFieldListElements() {
@@ -90,7 +94,7 @@ function FilterSearch(props) {
                     type="text"
                     placeholder="Search..."
                     required
-                    onKeyUp={(e) => handleSearchOnKeyUp(e)}
+                    onKeyUp={handleSearchOnKeyUp}
                 />
                 <button
                     className="custom-button"
@@ -113,7 +117,7 @@ function FilterSearch(props) {
             <form
                 id="filterForm"
                 ref={filterFormRef}
-                onChange={(e) => props.onChange(e)}
+                onChange={props.onChange}
                 onReset={props.onReset}
             >
                 <div id="filterSubmitButton">

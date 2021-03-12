@@ -14,6 +14,11 @@ X To find search terms, search for each property in ReplayEpisode instance. Need
 - ISSUE: Filter form AND search input does NOT reset checkboxes when 'Reset List' button is clicked.
 SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or utilize useContext hook?
 
+X ISSUE: Filter and search should only show episodes that satisfy all choices instead of just one.
+SOLUTION: If filter/search property has value AND episode does NOT contain value, return false. After each filter/search property is checked at end, return true.
+
+X ISSUE: Filter/search should include episodes that include any selected crew and any selected segment instead of episodes that include all selected crew and segments.
+
 X Use npm package react-player for YouTube video player
 
 Third Season Episodes: 302-307

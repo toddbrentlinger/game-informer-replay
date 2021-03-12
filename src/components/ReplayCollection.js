@@ -14,8 +14,6 @@ function ReplayCollection() {
     const [selectedEpisodes, setSelectedEpisodes] = useState(ReplayEpisode.collection);
     const [currPage, setCurrPage] = useState(1);
     const [resultsPerPage, setResultsPerPage] = useState(10);
-    //const [isAscending, setIsAscending] = useState(false);
-    //const [sortType, setSortType] = useState('airdate');
     const [sort, setSort] = useState({
         'isAscending': false, 'type': 'airdate',
     });
@@ -26,6 +24,10 @@ function ReplayCollection() {
         'segment': new Set(),
         'giCrew': new Set(),
     });
+
+    // Refs
+
+    const filterRef = useRef(null);
 
     // Effects
 
@@ -135,24 +137,27 @@ function ReplayCollection() {
     function filterReplayEpisodes(replayEpisodesArr) {
         return replayEpisodesArr.filter(episode => {
             // Search
-            if (filter.search && episode.containsSearchTerm(filter.search))
-                return true;
+            if (filter.search && !episode.containsSearchTerm(filter.search))
+                return false;
             // Season
-            if (filter.season.has(episode.getReplaySeason()[0].toString()))
-                return true;
+            if (filter.season.size && !filter.season.has(episode.getReplaySeason()[0].toString()))
+                return false;
             // Year
-            if (filter.year.has(episode.airdate.getFullYear().toString()))
-                return true;
+            if (filter.year.size && !filter.year.has(episode.airdate.getFullYear().toString()))
+                return false;
             // Segment
-            for (const segment of filter.segment.values()) {
-                if (episode.containsSegment(segment))
-                    return true;
-            }
+            if (filter.segment.size
+                && !Array.from(filter.segment.values())
+                    .some(segment => episode.containsSegment(segment)))
+                return false;
             // GI Crew
-            for (const name of filter.giCrew.values()) {
-                if (episode.containsCrew(name))
-                    return true;
-            }
+            if (filter.giCrew.size
+                && !Array.from(filter.giCrew.values())
+                    .some(name => episode.containsCrew(name)))
+                return false;
+
+            // If reach here, return true to include in filter
+            return true;
         });
     }
 
@@ -204,103 +209,107 @@ function ReplayCollection() {
     }
 
     return (
-        <main>
-            <FilterSearch
-                onChange={handleFilterFormChange}
-                onReset={handleFilterFormReset}
-                onSearch={handleSearch}
-            />
-            <div id="misc-buttons-container">
-                <button
-                    className="custom-button"
-                    type="button"
-                    id="button-shuffle"
-                    onClick={shuffleSelectedEpisodes}
-                >
-                    <FontAwesomeIcon icon={faRandom} aria-hidden="true" />
-                    SHUFFLE
-                </button>
-                <button
-                    className="custom-button"
-                    type="button"
-                    id="button-reset-list"
-                    onClick={resetSelectedEpisodes}
-                >
-                    <FontAwesomeIcon icon={faSyncAlt} aria-hidden="true" />
-                    RESET LIST
-                </button>
-            </div>
-            <PageNumbers
-                currPage={currPage}
-                resultsPerPage={resultsPerPage}
-                setCurrPage={setCurrPage}
-                maxResults={selectedEpisodes.length}
-            />
-            <div id="sort-main">
-                <div id="number-displayed-container">
-                    {handleDisplayedVideosMessage()}
+        <div className="row">
+            <nav id="sidenav" className="column left">
+                <FilterSearch
+                    onChange={handleFilterFormChange}
+                    onReset={handleFilterFormReset}
+                    onSearch={handleSearch}
+                />
+            </nav>
+            <main>
+                <div id="misc-buttons-container">
+                    <button
+                        className="custom-button"
+                        type="button"
+                        id="button-shuffle"
+                        onClick={shuffleSelectedEpisodes}
+                    >
+                        <FontAwesomeIcon icon={faRandom} aria-hidden="true" />
+                        SHUFFLE
+                    </button>
+                    <button
+                        className="custom-button"
+                        type="button"
+                        id="button-reset-list"
+                        onClick={resetSelectedEpisodes}
+                    >
+                        <FontAwesomeIcon icon={faSyncAlt} aria-hidden="true" />
+                        RESET LIST
+                    </button>
                 </div>
-                <div id="sort-container">
-                    <label htmlFor="sort-type-select">
-                        Sort:
-                        <select
-                            name="sort-type"
-                            id="sort-type-select"
-                            value={sort.type}
-                            onChange={(e) => {
-                                setSort({ ...sort, 'type': e.target.value});
-                            }}
-                        >
-                            <option value="none">-- Sort By --</option>
-                            <option value="airdate">Air Date</option>
-                            <option value="number">Ep. Number</option>
-                            <option value="views">Views</option>
-                            <option value="likes">Likes</option>
-                            <option value="like-ratio">Like Ratio</option>
-                            <option value="video-length">Video Length</option>
-                        </select>
-                    </label>
+                <PageNumbers
+                    currPage={currPage}
+                    resultsPerPage={resultsPerPage}
+                    setCurrPage={setCurrPage}
+                    maxResults={selectedEpisodes.length}
+                />
+                <div id="sort-main">
+                    <div id="number-displayed-container">
+                        {handleDisplayedVideosMessage()}
+                    </div>
+                    <div id="sort-container">
+                        <label htmlFor="sort-type-select">
+                            Sort:
+                            <select
+                                name="sort-type"
+                                id="sort-type-select"
+                                value={sort.type}
+                                onChange={(e) => {
+                                    setSort({ ...sort, 'type': e.target.value});
+                                }}
+                            >
+                                <option value="none">-- Sort By --</option>
+                                <option value="airdate">Air Date</option>
+                                <option value="number">Ep. Number</option>
+                                <option value="views">Views</option>
+                                <option value="likes">Likes</option>
+                                <option value="like-ratio">Like Ratio</option>
+                                <option value="video-length">Video Length</option>
+                            </select>
+                        </label>
 
-                    <label htmlFor="sort-direction-select">
-                        Direction:
-                        <select
-                            name="sort-direction"
-                            id="sort-direction-select"
-                            value={sort.isAscending ? "ascending" : "descending"}
-                            onChange={(e) => {
-                                setSort({ ...sort, 'isAscending': e.target.value === "ascending"});
+                        <label htmlFor="sort-direction-select">
+                            Direction:
+                            <select
+                                name="sort-direction"
+                                id="sort-direction-select"
+                                value={sort.isAscending ? "ascending" : "descending"}
+                                onChange={(e) => {
+                                    setSort({ ...sort, 'isAscending': e.target.value === "ascending"});
                                 
-                            }}
-                        >
-                            <option value="descending">Descending</option>
-                            <option value="ascending">Ascending</option>
-                        </select>
-                    </label>
-                    <label htmlFor="max-displayed-select">
-                        Per Page:
-                        <select
-                            name="max-displayed"
-                            id="max-displayed-select"
-                            value={resultsPerPage}
-                            onChange={(e) => { setResultsPerPage(parseInt(e.target.value, 10)); }}
-                        >
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                            <option>50</option>
-                            <option>100</option>
-                        </select>
-                    </label>
+                                }}
+                            >
+                                <option value="descending">Descending</option>
+                                <option value="ascending">Ascending</option>
+                            </select>
+                        </label>
+                        <label htmlFor="max-displayed-select">
+                            Per Page:
+                            <select
+                                name="max-displayed"
+                                id="max-displayed-select"
+                                value={resultsPerPage}
+                                onChange={(e) => { setResultsPerPage(parseInt(e.target.value, 10)); }}
+                            >
+                                <option>5</option>
+                                <option>10</option>
+                                <option>25</option>
+                                <option>50</option>
+                                <option>100</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
-            </div>
-            {createDisplayedEpisodesComponents()}
-            <PageNumbers
-                currPage={currPage}
-                resultsPerPage={resultsPerPage}
-                setCurrPage={setCurrPage}
-                maxResults={selectedEpisodes.length}
-                scrollToTop={true}
-            />
+                {createDisplayedEpisodesComponents()}
+                <PageNumbers
+                    currPage={currPage}
+                    resultsPerPage={resultsPerPage}
+                    setCurrPage={setCurrPage}
+                    maxResults={selectedEpisodes.length}
+                    scrollToTop={true}
+                />
+            </main>
             <div id="stats">
                 <h2>Stats:</h2>
                 <div id="stats-total-time">
@@ -320,7 +329,7 @@ function ReplayCollection() {
                     {`${addCommasToNumber(ReplayEpisode.gamesPlayed.size + 50)} (estimate)`}
                 </div>
             </div>
-        </main>
+        </div>
     );
 }
 

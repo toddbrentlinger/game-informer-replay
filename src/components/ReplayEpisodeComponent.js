@@ -110,8 +110,8 @@ function ReplayEpisodeComponent(props) {
                         <h4>gallery</h4>
                         <div className="gallery-container">
                             {
-                                content.map(image => (
-                                    <div className="gallery-item">
+                                content.map((image, index) => (
+                                    <div className="gallery-item" key={index}>
                                         <figure>
                                             <figcaption>{image.caption}</figcaption>
                                             <a

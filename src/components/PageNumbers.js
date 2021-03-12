@@ -5,15 +5,10 @@ import { debounce } from '../utilities.js';
 function PageNumbers(props) {
     const [numDisplayedButtons, setNumDisplayedButtons] = useState(getNumDisplayedButtons());
 
-    /** Returns number of numbered buttons to display depending on window width. */
-    function getNumDisplayedButtons() {
-        if (window.matchMedia("(max-width: 480px)").matches)
-            return 3;
-        else if (window.matchMedia("(max-width: 750px)").matches)
-            return 5;
-        else
-            return 7;
-    }
+    const lastPage = Math.ceil(props.maxResults / props.resultsPerPage);
+    const middlePage = Math.ceil(numDisplayedButtons / 2);
+
+    // Effects
 
     useEffect(() => {
         const debouncedHandleResize = debounce(function handleResize() {
@@ -28,6 +23,18 @@ function PageNumbers(props) {
             window.removeEventListener('resize', debouncedHandleResize);
         };
     });
+
+    // Functions
+
+    /** Returns number of numbered buttons to display depending on window width. */
+    function getNumDisplayedButtons() {
+        if (window.matchMedia("(max-width: 480px)").matches)
+            return 3;
+        else if (window.matchMedia("(max-width: 750px)").matches)
+            return 5;
+        else
+            return 7;
+    }
 
     function goToPage(num) {
         if (props.scrollToTop)
@@ -45,44 +52,34 @@ function PageNumbers(props) {
 
     function goNextPage() {
         // Return if currPage is last page
-        if (props.currPage === getLastPageNum())
+        if (props.currPage === lastPage)
             return;
 
         goToPage(props.currPage + 1);
     }
 
-    function getLastPageNum() {
-        return Math.ceil(props.maxResults / props.resultsPerPage);
-    }
-
-    function getMiddleButton() {
-        return Math.ceil(numDisplayedButtons / 2);
-    }
-
     function createNumberedPageButtons() {
         let numberedPageButtons = [];
-        const totalPages = getLastPageNum();
-        const middleButtonNum = getMiddleButton();
         let start, end;
-        // If totalPages is more than numDisplayedButtons
-        if (totalPages > numDisplayedButtons) {
-            if (props.currPage > totalPages - middleButtonNum) {
+        // If lastPage is more than numDisplayedButtons
+        if (lastPage > numDisplayedButtons) {
+            if (props.currPage > lastPage - middlePage) {
                 // Show last numDisplayedButtons
-                start = totalPages - numDisplayedButtons + 1;
-                end = totalPages;
-            } else if (props.currPage > middleButtonNum) {
+                start = lastPage - numDisplayedButtons + 1;
+                end = lastPage;
+            } else if (props.currPage > middlePage) {
                 // Show buttons with current page in middle
-                start = props.currPage - middleButtonNum + 1;
-                end = props.currPage + middleButtonNum - 1;
+                start = props.currPage - middlePage + 1;
+                end = props.currPage + middlePage - 1;
             } else {
                 // Show first numDisplayedButtons
                 start = 1;
                 end = numDisplayedButtons;
             }
-        } else { // Else totalPages is less than or equal to numDisplayedButtons
-            // Add buttons ranging from 1 to totalPages
+        } else { // Else lastPage is less than or equal to numDisplayedButtons
+            // Add buttons ranging from 1 to lastPage
             start = 1;
-            end = totalPages;
+            end = lastPage;
         }
 
         for (let i = start; i <= end; i++) {
@@ -117,8 +114,8 @@ function PageNumbers(props) {
                 // Disable 'FIRST' if last page is less than or equal to numDisplayedButtons
                 // OR current page is near beginning of list
                 disabled={
-                    getLastPageNum() <= numDisplayedButtons ||
-                    props.currPage <= getMiddleButton()
+                    lastPage <= numDisplayedButtons ||
+                    props.currPage <= middlePage
                 }
                 type="button"
                 value="first"
@@ -130,12 +127,12 @@ function PageNumbers(props) {
             </div>
             <button
                 className="custom-button"
-                onClick={() => goToPage(getLastPageNum())}
+                onClick={() => goToPage(lastPage)}
                 // Disable 'LAST' if last page is less than or equal to numDisplayedButtons
                 // OR current page is near end of list
                 disabled={
-                    getLastPageNum() <= numDisplayedButtons ||
-                    props.currPage >= getLastPageNum() - getMiddleButton() + 1
+                    lastPage <= numDisplayedButtons ||
+                    props.currPage >= lastPage - middlePage + 1
                 }
                 type="button"
                 value="last"
@@ -146,7 +143,7 @@ function PageNumbers(props) {
                 className="custom-button"
                 onClick={goNextPage}
                 // Disable 'NEXT' if current page is equal to last page
-                disabled={props.currPage === getLastPageNum()}
+                disabled={props.currPage === lastPage}
                 type="button"
                 value="next"
             >
@@ -155,7 +152,7 @@ function PageNumbers(props) {
         </div>
     );
 
-    return (props.maxResults ? pageButtonContainerTemplate : null);
+    return (lastPage > 1 ? pageButtonContainerTemplate : null);
 }
 
 export default PageNumbers;
