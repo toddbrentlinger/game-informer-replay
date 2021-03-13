@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 //import logo from './logo.svg';
 import './App.css';
-import ToggleSwitch from './components/ToggleSwitch.js';
+import DarkModeToggleSwitch from './components/DarkModeToggleSwitch.js';
 import FooterCustom from './components/FooterCustom.js';
 import ReplayEpisode from './classes/ReplayEpisode.js';
 import ReplayCollection from './components/ReplayCollection.js';
@@ -96,9 +96,11 @@ function App() {
                     <button>Super Replay</button>
                     <button>Test Chamber</button>
                 </div>
-                <ToggleSwitch />
+                <DarkModeToggleSwitch />
             </nav>
-            <header><h1>{getSelectedChannelTitle()}</h1></header>
+            <header>
+                <h1>{getSelectedChannelTitle()}</h1>
+            </header>
             {createImageHeader()}
             <div id="video-player-container">
                 <YouTubePlayer />

@@ -179,3 +179,37 @@
     margin: 0 auto;
     padding: 1em;
 }
+
+/* ----------------------------------- */
+/* ---------- Media Queries ---------- */
+/* ----------------------------------- */
+
+/*
+    - desktop ( > 1600px )
+    - laptop ( <= 1600px )
+    - tablets in landscape orientation ( <= 1024px )
+    @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {}
+    - tablets ( <= 768px )
+    - mobile ( <= 480px )
+*/
+
+@media (max-width: 800px) {
+    #gi-crew-field ul { column-count: 2; }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    #search-container, #filter-display-toggle-button { width: 100%; }
+
+    #search-container { 
+        margin-bottom: .5em; 
+        order: initial;
+    }
+
+    #filter-display-toggle-button.active + form {
+        border-top-right-radius: 0;
+        border-top: none;
+    }
+    
+    #gi-crew-field ul { column-count: 1; }
+}

@@ -21,6 +21,9 @@ X ISSUE: Filter/search should include episodes that include any selected crew an
 
 X Use npm package react-player for YouTube video player
 
+- ISSUE: If colorMode is 'dark', page is 'light' for split second before changing to 'dark'.
+SOLUTION: Instead of useEffect, use useLayoutEffect
+
 Third Season Episodes: 302-307
 
 PlayStation Network Sale (ends 3/10):

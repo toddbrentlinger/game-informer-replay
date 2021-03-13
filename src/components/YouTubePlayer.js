@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import YouTube from 'react-youtube';
 import './YouTubePlayer.css';
 
 function YouTubePlayer(props) {
+    const videoPlayerRef = useRef(null);
+
     const opts = {
         height: 360,
         width: 640,
@@ -17,11 +19,16 @@ function YouTubePlayer(props) {
         },
     };
 
+    function handleOnReady() {
+        videoPlayerRef.current.classList.remove('hide');
+    }
+
     return (
-        <div style={{ "display": "block" }} id="videoPlayer">
+        <div ref={videoPlayerRef} id="videoPlayer" className="hide">
             <YouTube
                 className="iframeWrapper"
                 opts={opts}
+                onReady={handleOnReady}
             />
         </div>
     );

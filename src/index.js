@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 //import { replayEpisodeCollection } from './objects/replayEpisodeCollection.js';
 import ReplayEpisode from './classes/ReplayEpisode.js';
 
-window.ReplayEpisode = ReplayEpisode;
+window.ReplayEpisode = ReplayEpisode; // temp for debugging
 //window.replayEpisodeCollection = replayEpisodeCollection;
 //replayEpisodeCollection.init();
 

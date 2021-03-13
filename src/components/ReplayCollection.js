@@ -8,6 +8,41 @@ import ReplayEpisode from '../classes/ReplayEpisode.js';
 import { addCommasToNumber, shuffleArray } from '../utilities';
 import FilterSearch from './FilterSearch.js';
 
+// const [state, dispatch] = useReducer(reducer, initialState)
+const initialState = {
+    'selectedEpisodes': ReplayEpisode.collection.slice(),
+    'sort': {
+        'isAscending': false,
+        'type': 'airdate',
+    },
+    'filter': {
+        'search': null,
+        'season': new Set(),
+        'year': new Set(),
+        'segment': new Set(),
+        'giCrew': new Set(),
+    },
+};
+
+function reducer(prevState, action) {
+    switch (action.type) {
+        case 'sortByType': // action.value = 'none', 'airdate', 'number', etc.
+            return { ...prevState, };
+        case 'sortByDirection': // action.isAscending = {Boolean}
+            return {...prevState, };
+        case 'search': // action.terms = {String} search terms
+            return {...prevState, };
+        case 'filter': // action.value = {name, value, isChecked}
+            return {...prevState, };
+        case 'reset':
+            return initialState;
+        case 'shuffle':
+            return {...prevState, };
+        default:
+            return prevState;
+    }
+}
+
 function ReplayCollection() {
     // States
 
@@ -24,10 +59,6 @@ function ReplayCollection() {
         'segment': new Set(),
         'giCrew': new Set(),
     });
-
-    // Refs
-
-    const filterRef = useRef(null);
 
     // Effects
 
@@ -64,6 +95,7 @@ function ReplayCollection() {
 
     function resetSelectedEpisodes() {
         setSort({ 'isAscending': false, 'type': 'airdate', });
+        setCurrPage(1);
         handleFilterFormReset();
     }
 

@@ -194,3 +194,7 @@ img {
         background-image: url("./images/replay_bg_1024w.jpg");
     }
 }
+
+@media (max-width: 650px) {
+    :root { background-image: none; }
+}

@@ -106,3 +106,36 @@ main {
 [data-theme="dark"] header {
     background-image: url("./images/Game_Informer_logo_(2010-present)_1024(dark_mode).png");
 }
+
+/* ----------------------------------- */
+/* ---------- Media Queries ---------- */
+/* ----------------------------------- */
+
+/*
+    - desktop ( > 1600px )
+    - laptop ( <= 1600px )
+    - tablets in landscape orientation ( <= 1024px )
+    @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {}
+    - tablets ( <= 768px )
+    - mobile ( <= 480px )
+*/
+
+@media (max-width: 650px) {
+    .App { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    header {
+        background-image: url("./images/Game_Informer_logo_(2010-present)_512.png");
+    }
+
+    @media (prefers-color-scheme: dark) {
+        header {
+            background-image: url("./images/Game_Informer_logo_(2010-present)_512(dark_mode).png");
+        }
+    }
+
+    [data-theme="dark"] header {
+        background-image: url("./images/Game_Informer_logo_(2010-present)_512(dark_mode).png");
+    }
+}

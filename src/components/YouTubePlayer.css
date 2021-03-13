@@ -18,6 +18,10 @@
     /*border: 5px solid black;*/
     z-index: 100;
 }
+#videoPlayer.hide {
+    position: absolute;
+    left: -9999px;
+}
 #videoPlayer .iframeWrapper {
     position: absolute;
     top: 0;

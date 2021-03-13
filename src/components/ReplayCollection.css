@@ -75,3 +75,21 @@ main {
 /* --------------------------- */
 
 #stats { margin: 0 1em; }
+
+/* ----------------------------------- */
+/* ---------- Media Queries ---------- */
+/* ----------------------------------- */
+
+/*
+    - desktop ( > 1600px )
+    - laptop ( <= 1600px )
+    - tablets in landscape orientation ( <= 1024px )
+    @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {}
+    - tablets ( <= 768px )
+    - mobile ( <= 480px )
+*/
+
+@media (max-width: 650px) {
+    #sort-main { flex-direction: column; }
+    #number-displayed-container { margin-top: .6em; }
+}
