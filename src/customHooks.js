@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 
 export function useDarkMode() {
     const preferDarkQuery = '(prefers-color-scheme: dark)';
@@ -17,7 +17,7 @@ export function useDarkMode() {
         return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         document.documentElement.setAttribute('data-theme', mode);
         window.localStorage.setItem('colorMode', mode);
     }, [mode]);

@@ -1,20 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import './FilterSearch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faSlidersH } from '@fortawesome/free-solid-svg-icons';
 import ReplayEpisode from '../classes/ReplayEpisode';
 
 function FilterSearch(props) {
-    const [isActive, setIsActive] = useState(false);
     const filterFormRef = useRef(null);
     const searchInputRef = useRef(null);
 
-    useEffect(() => {
-        filterFormRef.current.style.maxHeight =
-            isActive
-                ? filterFormRef.current.scrollHeight + 12 + "px"
-                : null;
-    }, [isActive]);
+    function handleFilterToggle(e) {
+        e.target.classList.toggle('active');
+        filterFormRef.current.style.maxHeight = (
+            filterFormRef.current.style.maxHeight
+                ? null
+                : filterFormRef.current.scrollHeight + 12 + "px"
+        );
+    }
 
     function clear() {
         console.log('FilterSearch clear() starts');
@@ -27,8 +28,9 @@ function FilterSearch(props) {
      * @param {String} name
      * @param {String|Number} value
      * @param {String|Number} label
+     * @param {Boolean} isChecked
      */
-    function createSingleFieldListElement(name, value, label) {
+    function createSingleFieldListElement(name, value, label, isChecked = false) {
         if (label === undefined)
             label = value;
         return (
@@ -43,9 +45,12 @@ function FilterSearch(props) {
     }
 
     function createSeasonFieldListElements() {
+        console.log('createSeasonFieldList');
         let fieldListElements = [];
+        let isChecked;
         for (let i = 1; i <= 6; i++) {
-            fieldListElements.push(createSingleFieldListElement("season", i.toString()));
+            //isChecked = props.filterProps.season.has(i.toString());
+            fieldListElements.push(createSingleFieldListElement("season", i.toString()), undefined, isChecked);
         }
         fieldListElements.push(createSingleFieldListElement("season", 0, "Special"));
 
@@ -53,6 +58,7 @@ function FilterSearch(props) {
     }
 
     function createYearFieldListElements() {
+        console.log('createYearFieldList');
         const currentYear = new Date().getFullYear();
         let fieldListElements = [];
         for (let i = 2010; i <= currentYear; i++) {
@@ -108,8 +114,8 @@ function FilterSearch(props) {
 
             <button
                 id="filter-display-toggle-button"
-                className={"custom-button collapsible" + (isActive ? " active" : null)}
-                onClick={() => setIsActive(prevState => !prevState)}
+                className="custom-button collapsible"
+                onClick={(e) => handleFilterToggle(e)}
             >
                 <FontAwesomeIcon icon={faSlidersH} aria-hidden="true" />
                 FILTER

@@ -1,9 +1,6 @@
 TODO: 
-X Use Set to get array of games played so do NOT have to check if every game is already in an array OR Map with title as key and count as property
 
 - Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplayEpisode, and eventually TestChamber classes.
-
-X To find search terms, search for each property in ReplayEpisode instance. Need to check if property is string, array, or object. If string, return true if it contains search. If array, check each element. If object, check each property. Use recursive function.
 
 - Since currPage and resultsPerPage do NOT change selectedEpisodes but filter/sort/search do, put them in separate components.
 
@@ -12,7 +9,13 @@ X To find search terms, search for each property in ReplayEpisode instance. Need
 - Reference dropdown toggle used in GMM app to use on filter dropdown.
 
 - ISSUE: Filter form AND search input does NOT reset checkboxes when 'Reset List' button is clicked.
-SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or utilize useContext hook?
+SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or utilize useContext hook? OR send filterFormInit() function as prop that accepts parameter filterFormRef and assigns to ref in parent component that is run at first render only with useEffect.
+
+- ISSUE: When reset filter form, clicking a checkbox does not filter episodes until unchecking and checking again.
+
+X Use Set to get array of games played so do NOT have to check if every game is already in an array OR Map with title as key and count as property
+
+X To find search terms, search for each property in ReplayEpisode instance. Need to check if property is string, array, or object. If string, return true if it contains search. If array, check each element. If object, check each property. Use recursive function.
 
 X ISSUE: Filter and search should only show episodes that satisfy all choices instead of just one.
 SOLUTION: If filter/search property has value AND episode does NOT contain value, return false. After each filter/search property is checked at end, return true.
@@ -21,7 +24,7 @@ X ISSUE: Filter/search should include episodes that include any selected crew an
 
 X Use npm package react-player for YouTube video player
 
-- ISSUE: If colorMode is 'dark', page is 'light' for split second before changing to 'dark'.
+X ISSUE: If colorMode is 'dark', page is 'light' for split second before changing to 'dark'.
 SOLUTION: Instead of useEffect, use useLayoutEffect
 
 Third Season Episodes: 302-307

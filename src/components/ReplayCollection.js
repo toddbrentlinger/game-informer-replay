@@ -97,6 +97,8 @@ function ReplayCollection() {
         setSort({ 'isAscending': false, 'type': 'airdate', });
         setCurrPage(1);
         handleFilterFormReset();
+        document.getElementById('filterForm').reset();
+        document.querySelector('#search-container > input').value = "";
     }
 
     function sortByType(episodeArr) {
@@ -231,6 +233,7 @@ function ReplayCollection() {
         return `Showing ${start + 1} - ${end} of ${selectedEpisodes.length} Replay episodes`;
     }
 
+    // TODO: Make static function of ReplayEpisode
     function createTotalTimeMessage() {
         const totalTimeSeconds = ReplayEpisode.totalTimeSeconds;
         const days = Math.floor(totalTimeSeconds / 86400);
