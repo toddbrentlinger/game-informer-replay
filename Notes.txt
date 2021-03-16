@@ -1,0 +1,14 @@
+TODO:
+
+- Create class for ReplayEpisode where certain JSON properties are converted (such as duration and date), include getters, and static methods. Pass class instance as prop into ReplayEpisodeComponent to render into list of displayed episodes. Keep array of ReplayEpisode instances to filter and sort.
+
+episodeTitle - string
+mainSegmentGamesAdv - {title, system}
+middleSegment - if exists string
+middleSegmentContent - is exists string
+secondSegment - if exists string
+secondSegmentGames - if exists string[]
+	details:
+description - string[]
+host - string[]
+featuring - string[]
