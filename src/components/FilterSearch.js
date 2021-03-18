@@ -17,12 +17,6 @@ function FilterSearch(props) {
         );
     }
 
-    function clear() {
-        console.log('FilterSearch clear() starts');
-        filterFormRef.current.reset();
-        searchInputRef.current.value = "";
-    }
-
     /**
      * 
      * @param {String} name
@@ -45,7 +39,7 @@ function FilterSearch(props) {
     }
 
     function createSeasonFieldListElements() {
-        console.log('createSeasonFieldList');
+        //console.log('createSeasonFieldList');
         let fieldListElements = [];
         let isChecked;
         for (let i = 1; i <= 6; i++) {
@@ -58,7 +52,7 @@ function FilterSearch(props) {
     }
 
     function createYearFieldListElements() {
-        console.log('createYearFieldList');
+        //console.log('createYearFieldList');
         const currentYear = new Date().getFullYear();
         let fieldListElements = [];
         for (let i = 2010; i <= currentYear; i++) {

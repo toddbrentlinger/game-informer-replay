@@ -3,9 +3,17 @@
 import ReplayEpisode from '../classes/ReplayEpisode.js';
 
 export const replayEpisodeCollection = {
-    replayEpisodeObjectArray: [], // Stores all ReplayEpisode objects
-    selectedEpisodes: [], // Stores references to ReplayEpisode objects in replayEpisodeObjectArray according to filter/sort properties
-    totalTimeSeconds: 0, //TODO: Could make static property of ReplayEpisode class
+    // Stores references to ReplayEpisode objects in ReplayEpisode.collection according to filter/sort properties
+    selectedEpisodes: [],
+
+    sort: {'type': 'airdate', 'isAscending': false},
+    filter: {
+        'search': null,
+        'season': new Set(),
+        'year': new Set(),
+        'segment': new Set(),
+        'giCrew': new Set(),
+    },
 };
 
 // -----------------------------
@@ -15,11 +23,10 @@ export const replayEpisodeCollection = {
 replayEpisodeCollection.init = async function () {
     const data = await this.loadJSON();
     console.log(`outside async has completed with data.length: ${data.length}`);
-    this.createReplayEpisodeArray(data);
 };
 
 replayEpisodeCollection.loadJSON = async function () {
-    let episodeData;
+    let isFinished = false;
     await fetch("data/gameInformerReplayFandomWikiData.json",
         {
             headers: {
@@ -29,14 +36,9 @@ replayEpisodeCollection.loadJSON = async function () {
         }
     ).then((response) => response.json()
     ).then((data) => {
+        data.forEach(episodeData => new ReplayEpisode(episodeData));
         console.log(`inside async has completed with data.length: ${data.length}`);
-        episodeData = data;
+        let isFinished = true;
     });
-    return episodeData;
+    return isFinished;
 };
-
-replayEpisodeCollection.createReplayEpisodeArray = function (data) {
-    this.replayEpisodeObjectArray = data.map(
-        (episodeData) => new ReplayEpisode(episodeData)
-    );
-}

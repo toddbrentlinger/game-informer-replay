@@ -280,13 +280,40 @@ export default class ReplayEpisode {
     static giCrew = new Map();
     static segments = new Map();
 
+    static selectedEpisodesState = {
+        'sort': { 'type': 'airdate', 'isAscending': false, },
+        'filter': {
+            'search': null,
+            'season': new Set(),
+            'year': new Set(),
+            'segment': new Set(),
+            'giCrew': new Set(),
+        },
+    };
+
     // ------------------------------------
     // ---------- Static Methods ----------
     // ------------------------------------
 
+    // Shuffle
+    static shuffleSelected() {
+
+    }
+
+    // Reset
+    static resetSelected() {
+
+    }
+
+    // SortByType
+    static sortSelectedByType() {
+
+    }
+
     /**
      * 
      * @param {String} url
+     * @returns {String}
      * @todo Move to public method since it does NOT use static properties
      */
     static getLinkSource(url) {
@@ -311,6 +338,7 @@ export default class ReplayEpisode {
      * 
      * @param {String} segment
      * @returns {String}
+     * @todo Move to public method since it does NOT use static properties
      */
     static getSegmentTitle(segment) {
         // If segment is empty, there is no segment, return empty string

@@ -2,7 +2,7 @@ TODO:
 
 - Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplayEpisode, and eventually TestChamber classes.
 
-- Since currPage and resultsPerPage do NOT change selectedEpisodes but filter/sort/search do, put them in separate components.
+- Since currPage and resultsPerPage do NOT change selectedEpisodes but filter/sort/search do, put them in separate components. Add DisplayedEpisodesList component with prop.selectedEpisodes and states currPage, resultsPerPage. ISSUE: clicking Reset List in parent should reset currPage state in child component.
 
 - Add useEffect with dependency of selectedEpisodes that changes video player. Pass video player function as property to ReplayCollection component.
 
@@ -12,6 +12,8 @@ TODO:
 SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or utilize useContext hook? OR send filterFormInit() function as prop that accepts parameter filterFormRef and assigns to ref in parent component that is run at first render only with useEffect.
 
 - ISSUE: When reset filter form, clicking a checkbox does not filter episodes until unchecking and checking again.
+
+- NOTE: Sort/Filter may NOT need to keep a state value. SelectedEpisodes is simply changed whenever sort/filter inputs are changed.
 
 X Use Set to get array of games played so do NOT have to check if every game is already in an array OR Map with title as key and count as property
 
