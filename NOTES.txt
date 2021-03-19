@@ -11,7 +11,7 @@ TODO:
 - ISSUE: Filter form AND search input does NOT reset checkboxes when 'Reset List' button is clicked.
 SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or utilize useContext hook? OR send filterFormInit() function as prop that accepts parameter filterFormRef and assigns to ref in parent component that is run at first render only with useEffect.
 
-- ISSUE: When reset filter form, clicking a checkbox does not filter episodes until unchecking and checking again.
+- ISSUE: When reset filter form, clicking a checkbox that was previously checked does not filter episodes until unchecking and checking again.
 
 - NOTE: Sort/Filter may NOT need to keep a state value. SelectedEpisodes is simply changed whenever sort/filter inputs are changed.
 

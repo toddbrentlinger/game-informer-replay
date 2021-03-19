@@ -50,8 +50,45 @@ function reducer(prevState, action) {
             };
         case 'search': // action.terms = {String} search terms
             return {...prevState, };
-        case 'filter': // action.value = {name, value, isChecked}
-            return {...prevState, };
+        case 'filter': // action.value = {event.target} name, value, isChecked
+            let newFilterState = { ...prevState.filter };
+            // Add/Remove action.value
+            const name = action.value.name; // filter object key
+            const value = action.value.value; // value to add/remove to set
+            const isChecked = action.value.checked; // bool to add/remove value from set
+            // If value needs to be added AND NOT already in Set
+            if (isChecked && !prevState.filter[name].has(value)) {
+                let newSet = new Set(prevState.filter[name]);
+                newFilterState[name] = newSet.add(value);
+            }
+            // Else If value needs to be removed AND is in Set
+            else if (!isChecked && prevState.filter[name].has(value)) {
+                let newSet = new Set(prevState.filter[name]);
+                newSet.delete(value);
+                newFilterState[name] = newSet;
+            }
+            // Else filter state does NOT change
+            else {
+                return { ...prevState };
+            }
+
+            // Get copy all episodes
+            let newSelectedEpisodes = ReplayEpisode.collection.slice();
+
+            // Sort episodes
+            sortByTypeNew(prevState.sort.type, newSelectedEpisodes);
+
+            // Filter episodes based on new filter state
+            newSelectedEpisodes = filterReplayEpisodesNew(newSelectedEpisodes, newFilterState);
+            console.log(`After filter:`);
+            console.log(`newSelectedEpisodes.length: ${newSelectedEpisodes.length}\nnewfilterState:`);
+            console.log(newFilterState);
+
+            return {
+                ...prevState,
+                'selectedEpisodes': newSelectedEpisodes,
+                'filter': newFilterState,
+            };
         case 'reset':
             return initialState;
         case 'shuffle':
@@ -93,6 +130,46 @@ function sortByTypeNew(type, episodeArr) {
     }
 }
 
+/**
+ * 
+ * @param {ReplayEpisode[]} replayEpisodesArr
+ * @param {Object} filterObj
+ * @param {String} filterObj.search
+ * @param {Set} filterObj.season
+ * @param {Set} filterObj.year
+ * @param {Set} filterObj.segment
+ * @param {Set} filterObj.giCrew
+ */
+function filterReplayEpisodesNew(replayEpisodesArr, filterObj) {
+    // Return if filterObj is empty
+    if (isFilterEmpty(filterObj)) return replayEpisodesArr;
+
+    return replayEpisodesArr.filter(episode => {
+        // Search
+        if (filterObj.search && !episode.containsSearchTerm(filterObj.search))
+            return false;
+        // Season
+        if (filterObj.season.size && !filterObj.season.has(episode.getReplaySeason()[0].toString()))
+            return false;
+        // Year
+        if (filterObj.year.size && !filterObj.year.has(episode.airdate.getFullYear().toString()))
+            return false;
+        // Segment
+        if (filterObj.segment.size
+            && !Array.from(filterObj.segment.values())
+                .some(segment => episode.containsSegment(segment)))
+            return false;
+        // GI Crew
+        if (filterObj.giCrew.size
+            && !Array.from(filterObj.giCrew.values())
+                .some(name => episode.containsCrew(name)))
+            return false;
+
+        // If reach here, return true to include in filter
+        return true;
+    });
+}
+
 function isFilterEmpty(filter) {
     return Object.values(filter).every(value => {
         if (!value)
@@ -110,6 +187,7 @@ function ReplayCollection() {
     const [selectedEpisodes, setSelectedEpisodes] = useState(ReplayEpisode.collection);
     const [currPage, setCurrPage] = useState(1);
     const [resultsPerPage, setResultsPerPage] = useState(10);
+    
     const [sort, setSort] = useState({
         'isAscending': false, 'type': 'airdate',
     });
@@ -120,13 +198,18 @@ function ReplayCollection() {
         'segment': new Set(),
         'giCrew': new Set(),
     });
-
+    
     // Reducer
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
     // Effects
 
+    useEffect(() => {
+        console.log('State has changed:');
+        console.log(state);
+    }, [state]);
+    
     useEffect(() => {
         if (sort.type === 'none') return;
 
@@ -148,7 +231,7 @@ function ReplayCollection() {
             setSelectedEpisodes(filterReplayEpisodes(newSelectedEpisodes));
         console.log("selectedEpisodes is changed after filter");
     }, [filter]);
-
+    
     // Functions
 
     function shuffleSelectedEpisodes() {
@@ -159,12 +242,13 @@ function ReplayCollection() {
     }
 
     function resetSelectedEpisodes() {
-        setSort({ 'isAscending': false, 'type': 'airdate', });
+        //setSort({ 'isAscending': false, 'type': 'airdate', });
+        dispatch({'type': 'reset'});
         setCurrPage(1);
         document.getElementById('filterForm').reset();
         document.querySelector('#search-container > input').value = "";
     }
-
+    
     function sortByType(episodeArr) {
         // Sort by type in ascending order
         switch (sort.type) {
@@ -198,6 +282,9 @@ function ReplayCollection() {
     }
 
     function handleFilterFormChange(e) {
+        dispatch({ 'type': 'filter', 'value': e.target, });
+        return;
+
         const name = e.target.name; // filter object key
         const value = e.target.value; // value to add/remove to set
         const isChecked = e.target.checked; // bool to add/remove value from set
@@ -275,7 +362,8 @@ function ReplayCollection() {
     }
 
     function createDisplayedEpisodesComponents() {
-        console.log(state, state.selectedEpisodes.length);
+        //console.log(state, state.selectedEpisodes.length);
+        console.log(`createDisplayedEpisodesComponents() has started\nstate.selectedEpisodes.length: ${state.selectedEpisodes.length}`);
         if (!state.selectedEpisodes.length) return;
 
         const start = (currPage - 1) * resultsPerPage;
@@ -317,9 +405,9 @@ function ReplayCollection() {
 
     function handleDisplayedVideosMessage() {
         const start = (currPage - 1) * resultsPerPage;
-        const end = Math.min(start + resultsPerPage, selectedEpisodes.length);
+        const end = Math.min(start + resultsPerPage, state.selectedEpisodes.length);
 
-        return `Showing ${start + 1} - ${end} of ${selectedEpisodes.length} Replay episodes`;
+        return `Showing ${start + 1} - ${end} of ${state.selectedEpisodes.length} Replay episodes`;
     }
 
     // TODO: Make static function of ReplayEpisode
@@ -366,7 +454,7 @@ function ReplayCollection() {
                     currPage={currPage}
                     resultsPerPage={resultsPerPage}
                     setCurrPage={setCurrPage}
-                    maxResults={selectedEpisodes.length}
+                    maxResults={state.selectedEpisodes.length}
                 />
                 <div id="sort-main">
                     <div id="number-displayed-container">
@@ -378,10 +466,10 @@ function ReplayCollection() {
                             <select
                                 name="sort-type"
                                 id="sort-type-select"
-                                value={sort.type}
+                                value={state.sort.type} // sort.type
                                 onChange={(e) => {
                                     dispatch({'type': 'sortByType', 'value': e.target.value,});
-                                    setSort({ ...sort, 'type': e.target.value});
+                                    //setSort({ ...sort, 'type': e.target.value});
                                 }}
                             >
                                 <option value="none">-- Sort By --</option>
@@ -399,10 +487,10 @@ function ReplayCollection() {
                             <select
                                 name="sort-direction"
                                 id="sort-direction-select"
-                                value={sort.isAscending ? "ascending" : "descending"}
+                                value={state.sort.isAscending ? "ascending" : "descending"} // sort.isAscending ? "ascending" : "descending"
                                 onChange={(e) => {
-                                    setSort({ ...sort, 'isAscending': e.target.value === "ascending"});
-                                
+                                    dispatch({ 'type': 'sortByDirection', 'value': (e.target.value === "ascending") });
+                                    //setSort({ ...sort, 'isAscending': e.target.value === "ascending"});
                                 }}
                             >
                                 <option value="descending">Descending</option>
@@ -431,7 +519,7 @@ function ReplayCollection() {
                     currPage={currPage}
                     resultsPerPage={resultsPerPage}
                     setCurrPage={setCurrPage}
-                    maxResults={selectedEpisodes.length}
+                    maxResults={state.selectedEpisodes.length}
                     scrollToTop={true}
                 />
             </main>
