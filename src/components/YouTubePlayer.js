@@ -19,7 +19,8 @@ function YouTubePlayer(props) {
         },
     };
 
-    function handleOnReady() {
+    function handleOnReady(e) {
+        window.youtubePlayer = e.target;
         videoPlayerRef.current.classList.remove('hide');
     }
 
@@ -28,7 +29,8 @@ function YouTubePlayer(props) {
             <YouTube
                 className="iframeWrapper"
                 opts={opts}
-                onReady={handleOnReady}
+                onReady={(e) => handleOnReady(e)}
+                onStateChange={null}
             />
         </div>
     );

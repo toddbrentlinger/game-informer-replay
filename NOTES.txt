@@ -13,7 +13,9 @@ SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or uti
 
 - ISSUE: When reset filter form, clicking a checkbox that was previously checked does not filter episodes until unchecking and checking again.
 
-- NOTE: Sort/Filter may NOT need to keep a state value. SelectedEpisodes is simply changed whenever sort/filter inputs are changed.
+- NOTE: Sort/Filter may NOT need to keep a state value. SelectedEpisodes is simply changed whenever sort/filter inputs are changed. However, sort needs to be referenced when filter changes. Could use a ref to read the value instead.
+
+- Combine 'search' and 'filter' cases in reducer
 
 X Use Set to get array of games played so do NOT have to check if every game is already in an array OR Map with title as key and count as property
 
@@ -28,6 +30,8 @@ X Use npm package react-player for YouTube video player
 
 X ISSUE: If colorMode is 'dark', page is 'light' for split second before changing to 'dark'.
 SOLUTION: Instead of useEffect, use useLayoutEffect
+
+Completes reducer function for useReducer hook and removes old states/effects that were replaced
 
 Third Season Episodes: 302-307
 

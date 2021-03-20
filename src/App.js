@@ -28,12 +28,16 @@ function reducer(state, action) {
 */
 
 function App() {
+    // States
+
     const [selectedChannel, setSelectedChannel] = useState({
         'replay': true,
         'superReplay': false,
         'testChamber': false,
     });
     const [isLoading, setIsLoading] = useState(true);
+
+    // Effects
 
     useEffect(() => {
         setIsLoading(true);
@@ -50,6 +54,8 @@ function App() {
             setIsLoading(false);
         });
     }, []);
+
+    // Functions
 
     function getSelectedChannelTitle() {
         if (selectedChannel.replay)
