@@ -46,6 +46,7 @@ function reducer(prevState, action) {
                 'sort': {...prevState.sort, 'isAscending': action.value},
             };
         case 'search': // action.value = {String} search terms
+            /*
             let newSearchFilterState = { ...prevState.filter, 'search': action.value };
             // Get copy all episodes
             let searchFilteredEpisodes = ReplayEpisode.collection.slice();
@@ -58,7 +59,44 @@ function reducer(prevState, action) {
                 'selectedEpisodes': searchFilteredEpisodes,
                 'filter': newSearchFilterState,
             };
+            */
         case 'filter': // action.value = {event.target} name, value, isChecked
+            let newFilterState = { ...prevState.filter };
+            if (typeof action.value === 'string') {
+                newFilterState.search = action.value;
+            } else { // Else action.value instanceof EventTarget
+                // Add/Remove action.value
+                const name = action.value.name; // filter object key
+                const value = action.value.value; // value to add/remove to set
+                const isChecked = action.value.checked; // bool to add/remove value from set
+                // If value needs to be added AND NOT already in Set
+                if (isChecked && !prevState.filter[name].has(value)) {
+                    let newSet = new Set(prevState.filter[name]);
+                    newFilterState[name] = newSet.add(value);
+                }
+                // Else If value needs to be removed AND is in Set
+                else if (!isChecked && prevState.filter[name].has(value)) {
+                    let newSet = new Set(prevState.filter[name]);
+                    newSet.delete(value);
+                    newFilterState[name] = newSet;
+                }
+                // Else filter state does NOT change
+                else {
+                    return { ...prevState };
+                }
+            }
+            // Get copy all episodes
+            let filteredEpisodes = ReplayEpisode.collection.slice();
+            // Sort episodes
+            sortByTypeNew(prevState.sort.type, filteredEpisodes, prevState.sort.isAscending);
+            // Filter episodes based on new filter state
+            filteredEpisodes = filterReplayEpisodesNew(filteredEpisodes, newFilterState);
+            return {
+                ...prevState,
+                'selectedEpisodes': filteredEpisodes,
+                'filter': newFilterState,
+            };
+            /*
             let newFilterState = { ...prevState.filter };
             // Add/Remove action.value
             const name = action.value.name; // filter object key
@@ -95,6 +133,7 @@ function reducer(prevState, action) {
                 'selectedEpisodes': filteredEpisodes,
                 'filter': newFilterState,
             };
+            */
         case 'reset':
             return initialState;
         case 'shuffle':
@@ -379,6 +418,7 @@ function ReplayCollection() {
         });
     }
     */
+
     function createDisplayedEpisodesComponents() {
         //console.log(state, state.selectedEpisodes.length);
         console.log(`createDisplayedEpisodesComponents() has started\nstate.selectedEpisodes.length: ${state.selectedEpisodes.length}`);
@@ -386,19 +426,26 @@ function ReplayCollection() {
 
         const start = (currPage - 1) * resultsPerPage;
         const end = Math.min(start + resultsPerPage, state.selectedEpisodes.length);
-        let episodesArr = [];
-        for (let i = start; i < end; i++) {
-            episodesArr.push(
-                <ReplayEpisodeComponent
-                    key={i}
-                    replayEpisode={state.selectedEpisodes[i]}
-                />
-            );
-        }
-        return episodesArr;
 
-        //return selectedEpisodes.slice(start, end)
-        //    .map((episode, index) => <ReplayEpisodeComponent key={index} replayEpisode={episode}/>);
+        return state.selectedEpisodes.slice(start, end)
+            .map((episode, index) => <ReplayEpisodeComponent key={index} replayEpisode={episode} />);
+
+        //let episodesArr = [];
+        //for (let i = start; i < end; i++) {
+        //    episodesArr.push(
+        //        <ReplayEpisodeComponent
+        //            key={i}
+        //            replayEpisode={state.selectedEpisodes[i]}
+        //        />
+        //    );
+        //}
+        //return episodesArr;
+    }
+
+    function handleFilterFormReset(e) {
+        console.log('handleFilterFormReset() starts');
+        //e.preventDefault();
+        dispatch({ 'type': 'reset', });
     }
 
     function handleDisplayedVideosMessage() {

@@ -2,13 +2,25 @@ import React from 'react';
 import './ReplayEpisodeComponent.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
 import Thumbnail from './Thumbnail.js';
 import GameInformerArticle from './GameInformerArticle.js';
-import playButtonImg from '../images/play-button-icon-gi-256.png';
+//import playButtonImg from '../images/play-button-icon-gi-256.png';
 import { listArrayAsString, addCommasToNumber } from '../utilities.js';
 import ReplayEpisode from '../classes/ReplayEpisode.js';
 
 function ReplayEpisodeComponent(props) {
+    function playVideo() {
+        if (!window.youtubePlayer) return;
+
+        window.youtubePlayer.cueVideoById(props.replayEpisode.youtubeVideoID);
+        document.getElementById('video-player-container')
+            .scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /**
+     * @returns {String[]}
+     * */
     function createMainSegmentGameList() {
         const gamesArr = props.replayEpisode.mainSegmentGames
             .map(game => game.title);
@@ -21,6 +33,7 @@ function ReplayEpisodeComponent(props) {
      * @param {String} className
      * @param {String} segment
      * @param {String[]} content
+     * @returns {React.Component}
      */
     function createSegmentComponent(title, className, segment, content) {
         if (!content) return;
@@ -41,6 +54,7 @@ function ReplayEpisodeComponent(props) {
     /**
      * 
      * @param {Object[]} contentArr
+     * @returns {React.Component[]}
      */
     function createDetailsComponent(contentArr) {
         if (!contentArr) return;
@@ -66,6 +80,7 @@ function ReplayEpisodeComponent(props) {
     /**
      * 
      * @param {String} headline
+     * @returns {React.Component}
      */
     function createListOfLinks(headline, linksArr, urlPrepend) {
         if (!linksArr.length) return null;
@@ -99,6 +114,7 @@ function ReplayEpisodeComponent(props) {
      * 
      * @param {String} heading
      * @param {Object[]} content
+     * @returns {React.Component}
      */
     function createSectionFromHeading(heading, content) {
         switch (heading) {
@@ -152,7 +168,7 @@ function ReplayEpisodeComponent(props) {
                 </div>
                 <div className="thumbnail-container">
                     <div className="episodeThumbnail">
-                        <a title="">
+                        <div className="click-to-play" title="" onClick={playVideo}>
                             <Thumbnail
                                 className="episodeImage"
                                 thumbnails={props.replayEpisode.thumbnails}
@@ -160,9 +176,9 @@ function ReplayEpisodeComponent(props) {
                             />
                             <time className="episodeLength" dateTime="">{props.replayEpisode.videoLength}</time>
                             <div className="playOverlay">
-                                <img alt="Play video icon" width="256" height="256" src={playButtonImg} />
+                                <FontAwesomeIcon icon={faPlayCircle} style={ {width: "100%"} } />
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
                 <div className="episodeDetails">

@@ -15,7 +15,11 @@ SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or uti
 
 - NOTE: Sort/Filter may NOT need to keep a state value. SelectedEpisodes is simply changed whenever sort/filter inputs are changed. However, sort needs to be referenced when filter changes. Could use a ref to read the value instead.
 
-- Combine 'search' and 'filter' cases in reducer
+X Replace Play Video image overlay with FontAwesome Icon
+
+X Combine 'search' and 'filter' cases in reducer by checking typeof action.value is either string or event.target
+
+X Replace anchor link tags in thumbnails since they don't have src attributes which lowers Lighthouse score
 
 X Use Set to get array of games played so do NOT have to check if every game is already in an array OR Map with title as key and count as property
 
@@ -31,7 +35,7 @@ X Use npm package react-player for YouTube video player
 X ISSUE: If colorMode is 'dark', page is 'light' for split second before changing to 'dark'.
 SOLUTION: Instead of useEffect, use useLayoutEffect
 
-Completes reducer function for useReducer hook and removes old states/effects that were replaced
+MISC:
 
 Third Season Episodes: 302-307
 

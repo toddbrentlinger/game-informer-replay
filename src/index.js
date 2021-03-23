@@ -10,6 +10,9 @@ window.ReplayEpisode = ReplayEpisode; // temp for debugging
 //window.replayEpisodeCollection = replayEpisodeCollection;
 //replayEpisodeCollection.init();
 
+// Global variable for YouTube video player
+window.youtubePlayer = null;
+
 ReactDOM.render(
     <React.StrictMode>
         <App />

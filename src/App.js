@@ -36,6 +36,7 @@ function App() {
         'testChamber': false,
     });
     const [isLoading, setIsLoading] = useState(true);
+    //const [youTubeVideoPlayer, setYouTubeVideoPlayer] = useState(null);
 
     // Effects
 

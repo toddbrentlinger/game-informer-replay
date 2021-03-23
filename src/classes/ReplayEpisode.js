@@ -280,21 +280,21 @@ export default class ReplayEpisode {
     static giCrew = new Map();
     static segments = new Map();
 
-    static selectedEpisodesState = {
-        'sort': { 'type': 'airdate', 'isAscending': false, },
-        'filter': {
-            'search': null,
-            'season': new Set(),
-            'year': new Set(),
-            'segment': new Set(),
-            'giCrew': new Set(),
-        },
-    };
+    //static selectedEpisodesState = {
+    //    'sort': { 'type': 'airdate', 'isAscending': false, },
+    //    'filter': {
+    //        'search': null,
+    //        'season': new Set(),
+    //        'year': new Set(),
+    //        'segment': new Set(),
+    //        'giCrew': new Set(),
+    //    },
+    //};
 
     // ------------------------------------
     // ---------- Static Methods ----------
     // ------------------------------------
-
+    /*
     // Shuffle
     static shuffleSelected() {
 
@@ -309,7 +309,7 @@ export default class ReplayEpisode {
     static sortSelectedByType() {
 
     }
-
+    */
     /**
      * 
      * @param {String} url

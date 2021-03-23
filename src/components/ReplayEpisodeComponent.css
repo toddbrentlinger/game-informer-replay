@@ -51,7 +51,7 @@
     position: relative;
 }
 
-.episodeThumbnail > a {
+.episodeThumbnail > .click-to-play {
     position: absolute;
     top: 0;
     left: 0;
@@ -81,9 +81,18 @@
 .episodeThumbnail:hover .playOverlay {
     display: block;
 }
+/*
 .playOverlay img {
     width: 100%;
     height: auto;
+}
+*/
+.playOverlay svg {
+    width: 100%;
+    height: auto;
+    color: #fff; /* GI Blue: #1f64e3 */
+    background-color: #1f64e3;
+    border-radius: 50%;
 }
 
 /* Clear-fix */
