@@ -3,7 +3,11 @@ import './PageNumbers.css';
 import { debounce } from '../utilities.js';
 
 function PageNumbers(props) {
+    // States
+
     const [numDisplayedButtons, setNumDisplayedButtons] = useState(getNumDisplayedButtons());
+
+    // Constants
 
     const lastPage = Math.ceil(props.maxResults / props.resultsPerPage);
     const middlePage = Math.ceil(numDisplayedButtons / 2);

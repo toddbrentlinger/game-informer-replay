@@ -157,7 +157,7 @@
 }
 
 /* Episode Anchor Links */
-.episodeMoreInfo a { color: #1f64e3; }
+.episodeMoreInfo a { color: #3d80fd; } /* #1f64e3 */
 .episodeMoreInfo a:visited { color: #ff008e; } /* #c10172 */
 
 /* ---------- Gallery ---------- */

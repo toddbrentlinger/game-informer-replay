@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useMemo } from 'react';
 import './ReplayCollection.css';
 import PageNumbers from './PageNumbers.js';
 import ReplayEpisodeComponent from './ReplayEpisodeComponent.js';
@@ -16,7 +16,7 @@ const initialState = {
         'type': 'airdate',
     },
     'filter': {
-        'search': null,
+        'search': "",
         'season': new Set(),
         'year': new Set(),
         'segment': new Set(),
@@ -46,20 +46,6 @@ function reducer(prevState, action) {
                 'sort': {...prevState.sort, 'isAscending': action.value},
             };
         case 'search': // action.value = {String} search terms
-            /*
-            let newSearchFilterState = { ...prevState.filter, 'search': action.value };
-            // Get copy all episodes
-            let searchFilteredEpisodes = ReplayEpisode.collection.slice();
-            // Sort episodes
-            sortByTypeNew(prevState.sort.type, searchFilteredEpisodes, prevState.sort.isAscending);
-            // Filter episodes based on new filter state
-            searchFilteredEpisodes = filterReplayEpisodesNew(searchFilteredEpisodes, newSearchFilterState);
-            return {
-                ...prevState,
-                'selectedEpisodes': searchFilteredEpisodes,
-                'filter': newSearchFilterState,
-            };
-            */
         case 'filter': // action.value = {event.target} name, value, isChecked
             let newFilterState = { ...prevState.filter };
             if (typeof action.value === 'string') {
@@ -96,44 +82,6 @@ function reducer(prevState, action) {
                 'selectedEpisodes': filteredEpisodes,
                 'filter': newFilterState,
             };
-            /*
-            let newFilterState = { ...prevState.filter };
-            // Add/Remove action.value
-            const name = action.value.name; // filter object key
-            const value = action.value.value; // value to add/remove to set
-            const isChecked = action.value.checked; // bool to add/remove value from set
-            // If value needs to be added AND NOT already in Set
-            if (isChecked && !prevState.filter[name].has(value)) {
-                let newSet = new Set(prevState.filter[name]);
-                newFilterState[name] = newSet.add(value);
-            }
-            // Else If value needs to be removed AND is in Set
-            else if (!isChecked && prevState.filter[name].has(value)) {
-                let newSet = new Set(prevState.filter[name]);
-                newSet.delete(value);
-                newFilterState[name] = newSet;
-            }
-            // Else filter state does NOT change
-            else {
-                return { ...prevState };
-            }
-
-            // Get copy all episodes
-            let filteredEpisodes = ReplayEpisode.collection.slice();
-            // Sort episodes
-            sortByTypeNew(prevState.sort.type, filteredEpisodes, prevState.sort.isAscending);
-            // Filter episodes based on new filter state
-            filteredEpisodes = filterReplayEpisodesNew(filteredEpisodes, newFilterState);
-            //console.log(`After filter:`);
-            //console.log(`filteredEpisodes.length: ${filteredEpisodes.length}\nnewfilterState:`);
-            //console.log(newFilterState);
-
-            return {
-                ...prevState,
-                'selectedEpisodes': filteredEpisodes,
-                'filter': newFilterState,
-            };
-            */
         case 'reset':
             return initialState;
         case 'shuffle':
@@ -420,8 +368,7 @@ function ReplayCollection() {
     */
 
     function createDisplayedEpisodesComponents() {
-        //console.log(state, state.selectedEpisodes.length);
-        console.log(`createDisplayedEpisodesComponents() has started\nstate.selectedEpisodes.length: ${state.selectedEpisodes.length}`);
+        //console.log(`createDisplayedEpisodesComponents() has started\nstate.selectedEpisodes.length: ${state.selectedEpisodes.length}`);
         if (!state.selectedEpisodes.length) return;
 
         const start = (currPage - 1) * resultsPerPage;
@@ -429,41 +376,26 @@ function ReplayCollection() {
 
         return state.selectedEpisodes.slice(start, end)
             .map((episode, index) => <ReplayEpisodeComponent key={index} replayEpisode={episode} />);
-
-        //let episodesArr = [];
-        //for (let i = start; i < end; i++) {
-        //    episodesArr.push(
-        //        <ReplayEpisodeComponent
-        //            key={i}
-        //            replayEpisode={state.selectedEpisodes[i]}
-        //        />
-        //    );
-        //}
-        //return episodesArr;
     }
 
-    function handleFilterFormReset(e) {
-        console.log('handleFilterFormReset() starts');
-        //e.preventDefault();
-        dispatch({ 'type': 'reset', });
-    }
+    // Memo
 
-    function handleDisplayedVideosMessage() {
+    const handleDisplayedVideosMessage = useMemo(() => {
         const start = (currPage - 1) * resultsPerPage;
         const end = Math.min(start + resultsPerPage, state.selectedEpisodes.length);
 
         return `Showing ${start + 1} - ${end} of ${state.selectedEpisodes.length} Replay episodes`;
-    }
+    }, [currPage, resultsPerPage, state.selectedEpisodes.length]);
 
     // TODO: Make static function of ReplayEpisode
-    function createTotalTimeMessage() {
+    const createTotalTimeMessage = useMemo(() => {
         const totalTimeSeconds = ReplayEpisode.totalTimeSeconds;
         const days = Math.floor(totalTimeSeconds / 86400);
         const hours = Math.floor((totalTimeSeconds - days * 86400) / 3600);
         const minutes = Math.floor((totalTimeSeconds - days * 86400 - hours * 3600) / 60);
         const seconds = totalTimeSeconds - (days * 86400) - (hours * 3600) - (minutes * 60);
         return `${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds! (Total seconds: ${addCommasToNumber(totalTimeSeconds)})`;
-    }
+    }, []);
 
     return (
         <div className="row">
@@ -471,7 +403,8 @@ function ReplayCollection() {
                 <FilterSearch
                     onChange={(e) => dispatch({ 'type': 'filter', 'value': e.target, })} // handleFilterFormChange
                     onReset={() => dispatch({ 'type': 'reset', })} // handleFilterFormReset
-                    onSearch={(searchTerms) => dispatch({ 'type': 'search', 'value':  searchTerms, })} // handleSearch
+                    onSearch={(searchTerms) => dispatch({ 'type': 'search', 'value': searchTerms, })} // handleSearch
+                    filterObj={state.filter}
                 />
             </nav>
             <main>
@@ -503,7 +436,7 @@ function ReplayCollection() {
                 />
                 <div id="sort-main">
                     <div id="number-displayed-container">
-                        {handleDisplayedVideosMessage()}
+                        {handleDisplayedVideosMessage}
                     </div>
                     <div id="sort-container">
                         <label htmlFor="sort-type-select">
@@ -572,7 +505,7 @@ function ReplayCollection() {
                 <h2>Stats:</h2>
                 <div id="stats-total-time">
                     <b>Total time of all Replay episodes: </b>
-                    {createTotalTimeMessage()}
+                    {createTotalTimeMessage}
                 </div>
                 <div id="stats-total-views">
                     <b>Total views of all Replay episodes: </b>

@@ -15,6 +15,8 @@ SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or uti
 
 - NOTE: Sort/Filter may NOT need to keep a state value. SelectedEpisodes is simply changed whenever sort/filter inputs are changed. However, sort needs to be referenced when filter changes. Could use a ref to read the value instead.
 
+- Use hook useMemo for components that do NOT need to render every time parent re-renders. EX. FilterSearch only renders when state.filter is changed, PageNumbers only renders when states currPage, resultsPerPage, and state.selectedEpisodes is changed. Input elements in FilterSearch only re-render when isChecked has changed.
+
 X Replace Play Video image overlay with FontAwesome Icon
 
 X Combine 'search' and 'filter' cases in reducer by checking typeof action.value is either string or event.target

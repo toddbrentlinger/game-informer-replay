@@ -16,7 +16,7 @@
     font-size: 1em;
     max-width: 28em;
 }
-#search-container input[type=text] {
+#search-container input[type=search] {
     flex: 4;
     padding: .6em;
     border: 2px solid var(--main-bg-color);

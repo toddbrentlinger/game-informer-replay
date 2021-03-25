@@ -1,5 +1,7 @@
 "use strict";
 
+import { getVideoLengthInSeconds } from '../utilities.js';
+
 export default class Episode {
     // ---------------------------------
     // ---------- Constructor ----------
@@ -131,24 +133,5 @@ export default class Episode {
         }
         // Other
         return false;
-    }
-
-    // ------------------------------------
-    // ---------- Static Methods ----------
-    // ------------------------------------
-
-    /**
-     * Passed as compare function into array sort method.
-     * @param {Episode} first
-     * @param {Episode} second
-     * @param {String} property
-     */
-    static compareEpisodesByProperty(first, second, property) {
-        if (first[property] !== undefined && second[property] !== undefined)
-            return first[property] - second[property];
-        else if (first[property] !== undefined)
-            return 1;
-        else if (second[property] !== undefined)
-            return -1;
     }
 }

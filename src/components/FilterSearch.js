@@ -5,8 +5,12 @@ import { faSearch, faSlidersH } from '@fortawesome/free-solid-svg-icons';
 import ReplayEpisode from '../classes/ReplayEpisode';
 
 function FilterSearch(props) {
+    // Refs
+
     const filterFormRef = useRef(null);
     const searchInputRef = useRef(null);
+
+    // Functions
 
     function handleFilterToggle(e) {
         e.target.classList.toggle('active');
@@ -23,15 +27,22 @@ function FilterSearch(props) {
      * @param {String|Number} value
      * @param {String|Number} label
      * @param {Boolean} isChecked
+     * @todo Create separate component with props: name, value, label, isChecked
      */
-    function createSingleFieldListElement(name, value, label, isChecked = false) {
+    function createSingleFieldListElement(name, value, label) {
         if (label === undefined)
             label = value;
         return (
             <li key={value}>
                 <label>
                     {label}
-                    <input type="checkbox" name={name} value={value} />
+                    <input
+                        type="checkbox"
+                        name={name}
+                        value={value}
+                        checked={props.filterObj[name].has(value)}
+                        onChange={props.onChange}
+                    />
                     <span className="checkmark"></span>
                 </label>
             </li>
@@ -39,12 +50,12 @@ function FilterSearch(props) {
     }
 
     function createSeasonFieldListElements() {
-        //console.log('createSeasonFieldList');
         let fieldListElements = [];
-        let isChecked;
         for (let i = 1; i <= 6; i++) {
             //isChecked = props.filterProps.season.has(i.toString());
-            fieldListElements.push(createSingleFieldListElement("season", i.toString()), undefined, isChecked);
+            fieldListElements.push(
+                createSingleFieldListElement("season", i.toString())
+            );
         }
         fieldListElements.push(createSingleFieldListElement("season", 0, "Special"));
 
@@ -91,10 +102,12 @@ function FilterSearch(props) {
             <div id="search-container">
                 <input
                     ref={searchInputRef}
-                    type="text"
+                    type="search"
                     placeholder="Search..."
                     required
+                    value={props.filterObj.search}
                     onKeyUp={handleSearchOnKeyUp}
+                    onChange={(e) => props.onSearch(e.target.value)}
                 />
                 <button
                     className="custom-button"
@@ -117,7 +130,6 @@ function FilterSearch(props) {
             <form
                 id="filterForm"
                 ref={filterFormRef}
-                onChange={props.onChange}
                 onReset={props.onReset}
             >
                 <div id="filterSubmitButton">
