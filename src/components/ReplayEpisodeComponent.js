@@ -11,11 +11,15 @@ import ReplayEpisode from '../classes/ReplayEpisode.js';
 
 function ReplayEpisodeComponent(props) {
     function playVideo() {
-        if (!window.youtubePlayer) return;
-
-        window.youtubePlayer.cueVideoById(props.replayEpisode.youtubeVideoID);
+        props.cuePlaylist(props.replayEpisode.youtubeVideoID);
         document.getElementById('video-player-container')
-            .scrollIntoView({ behavior: 'smooth' });
+            .scrollIntoView();
+
+        //if (!window.youtubePlayer) return;
+
+        //window.youtubePlayer.cueVideoById(props.replayEpisode.youtubeVideoID);
+        //document.getElementById('video-player-container')
+        //    .scrollIntoView({ behavior: 'smooth' });
     }
 
     /**

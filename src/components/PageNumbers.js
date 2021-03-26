@@ -28,6 +28,12 @@ function PageNumbers(props) {
         };
     });
 
+    // Checks if currPage beyond last page
+    useEffect(() => {
+        if (props.currPage > lastPage)
+            props.setCurrPage(lastPage);
+    });
+
     // Functions
 
     /** Returns number of numbered buttons to display depending on window width. */

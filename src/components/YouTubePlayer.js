@@ -10,7 +10,7 @@ function YouTubePlayer(props) {
         width: 640,
         //videoId: '0ZtEkX8m6yg', // default video: Replay Highlights
         playerVars: {
-            playlist: ['0ZtEkX8m6yg'],
+            //playlist: ['0ZtEkX8m6yg'],
             iv_load_policy: 3, // video annotations (default: 1)
             modestbranding: 1,
             enablejsapi: 1,
@@ -29,9 +29,10 @@ function YouTubePlayer(props) {
         <div ref={videoPlayerRef} id="videoPlayer" className="hide">
             <YouTube
                 className="iframeWrapper"
+                videoId="0ZtEkX8m6yg"
                 opts={opts}
                 onReady={(e) => handleOnReady(e)}
-                onStateChange={() => { }}
+                //onStateChange={() => { }}
             />
         </div>
     );

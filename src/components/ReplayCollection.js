@@ -209,7 +209,8 @@ function ReplayCollection() {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     // Effects
-
+    /*
+    // TEMP
     useEffect(() => {
         console.log('State has changed:');
         console.log(state);
@@ -375,7 +376,64 @@ function ReplayCollection() {
         const end = Math.min(start + resultsPerPage, state.selectedEpisodes.length);
 
         return state.selectedEpisodes.slice(start, end)
-            .map((episode, index) => <ReplayEpisodeComponent key={index} replayEpisode={episode} />);
+            .map((episode, index) => <ReplayEpisodeComponent key={index} replayEpisode={episode} cuePlaylist={cuePlaylist} />);
+    }
+
+    function getSelectedVideoIDArray() {
+        let selectedVideoIDArray = [];
+        state.selectedEpisodes.forEach(episode => {
+            if (episode.youtubeVideoID)
+                selectedVideoIDArray.push(episode.youtubeVideoID);
+        });
+        return selectedVideoIDArray;
+    }
+
+    function cuePlaylist(videoID) {
+        if (!window.youtubePlayer) {
+            console.error('No reference to video player');
+            return;
+        }
+
+        const selectedVideoIdArray = getSelectedVideoIDArray();
+        // If NO videoID parameter, cue playlist of first 200 selected episodes
+        if (!videoID) {
+            if (selectedVideoIdArray.length) {
+                window.youtubePlayer.cuePlaylist(selectedVideoIdArray.slice(0, 200));
+            } else { // Else no selected episodes, cue Replay highlights video
+                window.youtubePlayer.cueVideoById('0ZtEkX8m6yg');
+            }
+        }
+        // Else cue playlist starting with videoID parameter
+        else {
+            const episodeIndex = selectedVideoIdArray.indexOf(videoID);
+            // Check for errors
+            if (episodeIndex === -1) {
+                console.error(`Requested video ID "${videoID}" is NOT in selected episodes array`);
+                return;
+            }
+
+            let playlistStartIndex;
+            // If more than 200 episodes in selected video array
+            if (selectedVideoIdArray.length > 200) {
+                // If episodeIndex is within first 200 on selected video array
+                if (episodeIndex < 200)
+                    playlistStartIndex = 0;
+                // Else If episodeIndex is within last 200 (more than 200 total videos)
+                // 350 total(0-349) -- 350-200=150 -- 150-349(200 total)
+                else if (episodeIndex >= selectedVideoIdArray.length - 200)
+                    playlistStartIndex = selectedVideoIdArray.length - 200;
+                // Else (episodeIndex is larger than 200, and more than 400 total videos)
+                else
+                    playlistStartIndex = 200 * Math.floor(episodeIndex / 200);
+                // Cue playlist using playlistStartIndex
+                window.youtubePlayer.cuePlaylist(selectedVideoIdArray.slice(
+                    playlistStartIndex,
+                    playlistStartIndex + 200
+                ), episodeIndex - playlistStartIndex);
+            } else { // Else 200 or less episodes in selected episodes
+                window.youtubePlayer.cuePlaylist(selectedVideoIdArray, episodeIndex);
+            }
+        }
     }
 
     // Memo

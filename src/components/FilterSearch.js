@@ -1,14 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './FilterSearch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faSlidersH } from '@fortawesome/free-solid-svg-icons';
 import ReplayEpisode from '../classes/ReplayEpisode';
 
 function FilterSearch(props) {
+    // States
+
+    const [searchInput, setSearchInput] = useState("");
+
     // Refs
 
     const filterFormRef = useRef(null);
-    const searchInputRef = useRef(null);
+
+    // Effects
+
+    useEffect(() => {
+        if (searchInput !== props.filterObj.search)
+            setSearchInput(props.filterObj.search);
+    }, [props.filterObj.search]);
 
     // Functions
 
@@ -93,7 +103,7 @@ function FilterSearch(props) {
         // No. 13 is 'enter' key
         if (e.keyCode === 13) {
             e.preventDefault(); // Cancel default action, if needed
-            props.onSearch(searchInputRef.current.value);
+            props.onSearch(searchInput);
         }
     }
 
@@ -101,19 +111,18 @@ function FilterSearch(props) {
         <div id="search-filter-container">
             <div id="search-container">
                 <input
-                    ref={searchInputRef}
                     type="search"
                     placeholder="Search..."
                     required
-                    value={props.filterObj.search}
+                    value={searchInput}
                     onKeyUp={handleSearchOnKeyUp}
-                    onChange={(e) => props.onSearch(e.target.value)}
+                    onChange={(e) => setSearchInput(e.target.value)}
                 />
                 <button
                     className="custom-button"
                     type="button"
                     aria-label="search"
-                    onClick={() => { props.onSearch(searchInputRef.current.value); }}
+                    onClick={() => { props.onSearch(searchInput); }}
                 >
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
