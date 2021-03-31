@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/game-informer-replay/static/css/main.3857f11e.chunk.css",
-    "main.js": "/game-informer-replay/static/js/main.bd8f8039.chunk.js",
-    "main.js.map": "/game-informer-replay/static/js/main.bd8f8039.chunk.js.map",
-    "runtime-main.js": "/game-informer-replay/static/js/runtime-main.689fe3a0.js",
-    "runtime-main.js.map": "/game-informer-replay/static/js/runtime-main.689fe3a0.js.map",
-    "static/js/2.dcecf613.chunk.js": "/game-informer-replay/static/js/2.dcecf613.chunk.js",
-    "static/js/2.dcecf613.chunk.js.map": "/game-informer-replay/static/js/2.dcecf613.chunk.js.map",
-    "static/js/3.6629482b.chunk.js": "/game-informer-replay/static/js/3.6629482b.chunk.js",
-    "static/js/3.6629482b.chunk.js.map": "/game-informer-replay/static/js/3.6629482b.chunk.js.map",
+    "main.css": "/game-informer-replay/static/css/main.a4117906.chunk.css",
+    "main.js": "/game-informer-replay/static/js/main.f095806c.chunk.js",
+    "main.js.map": "/game-informer-replay/static/js/main.f095806c.chunk.js.map",
+    "runtime-main.js": "/game-informer-replay/static/js/runtime-main.950578cf.js",
+    "runtime-main.js.map": "/game-informer-replay/static/js/runtime-main.950578cf.js.map",
+    "static/js/2.c4324fda.chunk.js": "/game-informer-replay/static/js/2.c4324fda.chunk.js",
+    "static/js/2.c4324fda.chunk.js.map": "/game-informer-replay/static/js/2.c4324fda.chunk.js.map",
+    "static/js/3.9f3347f5.chunk.js": "/game-informer-replay/static/js/3.9f3347f5.chunk.js",
+    "static/js/3.9f3347f5.chunk.js.map": "/game-informer-replay/static/js/3.9f3347f5.chunk.js.map",
     "index.html": "/game-informer-replay/index.html",
-    "static/css/main.3857f11e.chunk.css.map": "/game-informer-replay/static/css/main.3857f11e.chunk.css.map",
-    "static/js/2.dcecf613.chunk.js.LICENSE.txt": "/game-informer-replay/static/js/2.dcecf613.chunk.js.LICENSE.txt",
+    "static/css/main.a4117906.chunk.css.map": "/game-informer-replay/static/css/main.a4117906.chunk.css.map",
+    "static/js/2.c4324fda.chunk.js.LICENSE.txt": "/game-informer-replay/static/js/2.c4324fda.chunk.js.LICENSE.txt",
     "static/media/App.css": "/game-informer-replay/static/media/Game_Informer_logo_(2010-present)_512.90b2c551.png",
     "static/media/index.css": "/game-informer-replay/static/media/replay_bg_gi_blue_2100w.efab4845.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.689fe3a0.js",
-    "static/js/2.dcecf613.chunk.js",
-    "static/css/main.3857f11e.chunk.css",
-    "static/js/main.bd8f8039.chunk.js"
+    "static/js/runtime-main.950578cf.js",
+    "static/js/2.c4324fda.chunk.js",
+    "static/css/main.a4117906.chunk.css",
+    "static/js/main.f095806c.chunk.js"
   ]
 }
