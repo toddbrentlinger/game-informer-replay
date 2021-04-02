@@ -107,10 +107,10 @@ function ReplayEpisodeComponent(props) {
         );
 
         return (
-            <div>
+            <React.Fragment key={headline.replace(/\s/g, "_")}>
                 <h4>{headline}</h4>
                 <ul>{linksNodeArr}</ul>
-            </div>
+            </React.Fragment>
         );
     }
 
@@ -126,7 +126,7 @@ function ReplayEpisodeComponent(props) {
                 return createListOfLinks("see also", content, "https://replay.fandom.com")
             case 'gallery':
                 return (
-                    <div>
+                    <React.Fragment key={heading}>
                         <h4>gallery</h4>
                         <div className="gallery-container">
                             {
@@ -151,14 +151,14 @@ function ReplayEpisodeComponent(props) {
                                 ))
                             }
                         </div>
-                    </div>
+                    </React.Fragment>
                 );
             default:
                 return (
-                    <div>
+                    <React.Fragment key={heading}>
                         <h4>{heading.replace(/_/g, " ")}</h4>
                         {createDetailsComponent(content)}
-                    </div>
+                    </React.Fragment>
                 );
         }
     }
@@ -172,7 +172,7 @@ function ReplayEpisodeComponent(props) {
                 </div>
                 <div className="thumbnail-container">
                     <div className="episodeThumbnail">
-                        <div className="click-to-play" title="" onClick={playVideo}>
+                        <div className="click-to-play" onClick={playVideo}>
                             <Thumbnail
                                 className="episodeImage"
                                 thumbnails={props.replayEpisode.thumbnails}
