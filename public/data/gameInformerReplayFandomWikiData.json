@@ -1,5 +1,100 @@
 [
   {
+    "episodeNumber": 576,
+    "episodeTitle": "Replay: Minerva: Metastasis",
+    "fandomWikiURL": "/wiki/Replay:_Minerva:_Metastasis",
+    "mainSegmentGamesAdv": [
+      {
+        "title": "Minerva: Metastasis",
+        "system": "PC",
+        "yearReleased": "2005"
+      }
+    ],
+    "airDate": "02/19/21",
+    "videoLength": "58:35",
+    "secondSegment": "RR",
+    "secondSegmentGames": [ "Night of the Consumers", "Last of Ass", "Home" ],
+    "season": 6,
+    "details": {
+      "description": [ "Minerva: Metastasis (Half-Life 2 Mod) is the featured game in the 576th episode of Replay. This episode is hosted by Andrew Reiner and features Ben Reeves, Marcus Stewart, and Alex Van Aken.  The roulette for this episode is Night of the Consumers, Last of Ass, and Home." ],
+      "external_links": [
+        {
+          "href": "https://www.gameinformer.com/replay/replay/2021/02/19/replay-minerva-metastasis-half-life-2-mod",
+          "title": "Replay \u2013 Minerva: Metastasis (Half-Life 2 Mod)"
+        },
+        {
+          "href": "https://www.youtube.com/watch?v=BwG3QD9qgI0",
+          "title": "Minerva: Metastasis (Half-Life 2 Mod) - Replay"
+        },
+        {
+          "href": "https://en.wikipedia.org/wiki/Minerva_(video_game)",
+          "title": "Minerva (video game)"
+        },
+        {
+          "href": "https://germfood.itch.io/nightoftheconsumers",
+          "title": "Night of the Consumers"
+        },
+        {
+          "href": "https://store.steampowered.com/app/1372370/Last_of_Ass/",
+          "title": "Last of Ass"
+        },
+        {
+          "href": "https://store.steampowered.com/app/215670/Home/",
+          "title": "Home"
+        }
+      ],
+      "image": {
+        "width": "300",
+        "height": "169",
+        "srcset": [ "https://static.wikia.nocookie.net/replay/images/3/34/MinervaMetastasis.jpg/revision/latest/scale-to-width-down/310?cb=20210403215720", "1x", "https://static.wikia.nocookie.net/replay/images/3/34/MinervaMetastasis.jpg/revision/latest/scale-to-width-down/619?cb=20210403215720", "2x" ]
+      },
+      "system": [ "PC" ],
+      "gamedate": [ "September 2, 2005" ],
+      "airdate": "February 19, 2021",
+      "runtime": "58:35",
+      "host": [ "Andrew Reiner" ],
+      "featuring": [ "Ben Reeves", "Marcus Stewart", "Alex Van Aken" ]
+    },
+    "article": {
+      "title": "Replay \u2013 Minerva: Metastasis (Half-Life 2 Mod)",
+      "author": "Alex Van Aken",
+      "date": " on Feb 19, 2021 at 02:23 PM",
+      "content": [ "Join the Game Informer crew as they play the popular Half-Life 2 mod, Minerva: Metastasis. Additionally, the team will be exploring a few interesting survival horror experiences on Steam, like Night of the Consumers, Home, and Last of Ass. Yup, you read that right.", "Minerva: Metastasis tasks you with surviving on a remote Combine island while also attempting to unravel the mystery housed deep within. You'll just have to tune in and see what the other games have in store.", "Join Andrew Reiner, Ben Reeves, Marcus Stewart, and Alex Van Aken as they survive the Combine and delve into more\u00a0fun horror experiences from the Steam library.", "We'll be kicking off the show today at 2:30\u00a0p.m. CT, so be sure to join us in the chat and end your week on a high note!\u00a0If you can't get enough of our live shows, remember to subscribe on\u00a0YouTube,\u00a0Twitch,\u00a0Twitter, and\u00a0Facebook\u00a0to get notified when we go live each week!" ]
+    },
+    "youtube": {
+      "views": 1494,
+      "likes": 48,
+      "dislikes": 2,
+      "thumbnails": {
+        "default": {
+          "url": "https://i.ytimg.com/vi/BwG3QD9qgI0/default.jpg",
+          "width": 120,
+          "height": 90
+        },
+        "medium": {
+          "url": "https://i.ytimg.com/vi/BwG3QD9qgI0/mqdefault.jpg",
+          "width": 320,
+          "height": 180
+        },
+        "high": {
+          "url": "https://i.ytimg.com/vi/BwG3QD9qgI0/hqdefault.jpg",
+          "width": 480,
+          "height": 360
+        },
+        "standard": {
+          "url": "https://i.ytimg.com/vi/BwG3QD9qgI0/sddefault.jpg",
+          "width": 640,
+          "height": 480
+        },
+        "maxres": {
+          "url": "https://i.ytimg.com/vi/BwG3QD9qgI0/maxresdefault.jpg",
+          "width": 1280,
+          "height": 720
+        }
+      }
+    }
+  },
+  {
     "episodeNumber": 575,
     "episodeTitle": "Replay: Little Nightmares",
     "fandomWikiURL": "/wiki/Replay:_Little_Nightmares",
