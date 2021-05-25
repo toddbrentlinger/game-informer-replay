@@ -1,5 +1,10 @@
 TODO: 
 
+- Fix image by setting ratio of black background that depends on thumbnail width or ratio.
+Use trick by setting image container padding-top:XX% to certain percentage and positioning thumbnail
+image to position:relative of container.
+	Source: https://www.w3schools.com/howto/howto_css_aspect_ratio.asp
+
 - Create base Episode class that contains static properties/methods and any instance properties/methods shared between Replay, SuperReplayEpisode, and eventually TestChamber classes.
 
 - Since currPage and resultsPerPage do NOT change selectedEpisodes but filter/sort/search do, put them in separate components. Add DisplayedEpisodesList component with prop.selectedEpisodes and states currPage, resultsPerPage. ISSUE: clicking Reset List in parent should reset currPage state in child component.
