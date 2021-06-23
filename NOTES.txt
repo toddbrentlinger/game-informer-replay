@@ -1,4 +1,12 @@
-TODO: 
+TODO:
+
+6/21/21:
+
+- Reference YouTube where video player is full width of the window. Should provide check or limit on player height NOT exceeding window height.
+
+- Add Redux state logic. Mainly needed to track currently selected video. Maybe not needed.
+
+Pre-6/21/21: 
 
 - Fix image by setting ratio of black background that depends on thumbnail width or ratio.
 Use trick by setting image container padding-top:XX% to certain percentage and positioning thumbnail
