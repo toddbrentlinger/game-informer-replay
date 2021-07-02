@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/game-informer-replay/static/css/main.a4117906.chunk.css",
-    "main.js": "/game-informer-replay/static/js/main.f095806c.chunk.js",
-    "main.js.map": "/game-informer-replay/static/js/main.f095806c.chunk.js.map",
+    "main.js": "/game-informer-replay/static/js/main.ffd1f3b8.chunk.js",
+    "main.js.map": "/game-informer-replay/static/js/main.ffd1f3b8.chunk.js.map",
     "runtime-main.js": "/game-informer-replay/static/js/runtime-main.950578cf.js",
     "runtime-main.js.map": "/game-informer-replay/static/js/runtime-main.950578cf.js.map",
     "static/js/2.c4324fda.chunk.js": "/game-informer-replay/static/js/2.c4324fda.chunk.js",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.950578cf.js",
     "static/js/2.c4324fda.chunk.js",
     "static/css/main.a4117906.chunk.css",
-    "static/js/main.f095806c.chunk.js"
+    "static/js/main.ffd1f3b8.chunk.js"
   ]
 }
