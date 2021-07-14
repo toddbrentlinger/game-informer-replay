@@ -1,4 +1,24 @@
-TODO:
+Game Informer Replay TODO:
+
+7/9/21
+
+- Add sliding animation from bottom of the screen to the scroll to top icon
+
+7/7/21
+
+- Add sliders in filter (Keep filter min/max values as static values in ReplayEpisode that are tracked when any new ReplayEpisode instance is added to the cache. Use these min/max values in the filter so no unnecessary values are included.):
+	- liked ratio 
+	- video length
+	- airdate (include separte checkbox AND slider at the bottom)
+
+- Filter Reference: NewEgg.com, SantaCruzNaturals.com, shopping stores sites, etc.
+
+6/24/21
+
+- Add full screen functionality like YouTube that has player take up full screen on top of document
+and rest of the page can be scrolled down to interact.
+	- Toggle full screen if click 'F' key
+	- https://gomakethings.com/going-full-screen-with-vanilla-js/#:~:text=The%20Fullscreen%20API%20%23&text=requestFullscreen()%20method%20puts%20an,always%20called%20on%20the%20document%20)
 
 6/21/21:
 

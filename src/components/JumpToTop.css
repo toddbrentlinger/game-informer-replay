@@ -3,7 +3,14 @@
     right: .5em;
     bottom: .5em;
     cursor: pointer;
+    transition-property: bottom;
+    transition-duration: 1s;
 }
+
+#jump-top-page-container.hide {
+    bottom: -5em;
+}
+
 #jump-top-page-container > div {
     background-color: var(--second-bg-color);
     border-radius: 50%;

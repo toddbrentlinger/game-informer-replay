@@ -9,16 +9,21 @@ function JumpToTop() {
     useEffect(() => {
         const mainElement = document.getElementById('top-page');
         window.addEventListener("scroll", () => {
-            containerRef.current.style.display = (mainElement.getBoundingClientRect().top < 0)
-                ? "block"
-                : "none";
+            if (mainElement.getBoundingClientRect().top < 0)
+                containerRef.current.classList.remove('hide');
+            else
+                containerRef.current.classList.add('hide');
+            //containerRef.current.style.display = (mainElement.getBoundingClientRect().top < 0)
+            //    ? "block"
+            //    : "none";
         });
     }, []);
 
     return (
         <div id="jump-top-page-container"
             title="Jump To Top"
-            style={{ "display": "none" }}
+            //style={{ "display": "none" }}
+            className="hide"
             onClick={() => document.getElementById('top-page').scrollIntoView({ behavior: "smooth" })}
             ref={containerRef}
         >
