@@ -1,0 +1,51 @@
+/*
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: black;
+}
+*/
+
+.spinning-replay-logo-container {
+    width: 50%;
+    margin: auto;
+}
+
+.spinning-replay-logo {
+    position: relative;
+}
+
+.spinning-replay-logo .replay-logo-text {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.spinning-replay-logo .replay-logo-circle-arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-direction: reverse;
+    animation-timing-function: ease-in-out;
+    width: auto;
+    height: 100%;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
