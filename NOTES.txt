@@ -1,8 +1,15 @@
 Game Informer Replay TODO:
 
+7/23/21
+
+- ISSUE: When displayed list changes, the previous image is displayed shortly until the right image loads in it's place.
+SOLUTION: Somehow remove image before loading starts AND/OR use default loading image until new image finishes loading.
+
+- If video player is currently playing AND the user scrolls down, the video player moves to a smaller window in the bottom corner. Reference YouTube.
+
 7/9/21
 
-- Add sliding animation from bottom of the screen to the scroll to top icon
+X Add sliding animation from bottom of the screen to the scroll to top icon
 
 7/7/21
 
@@ -44,7 +51,7 @@ image to position:relative of container.
 - ISSUE: Filter form AND search input does NOT reset checkboxes when 'Reset List' button is clicked.
 SOLUTION: Send bool of isFilterEmpty() as prop to FilterSearch component? Or utilize useContext hook? OR send filterFormInit() function as prop that accepts parameter filterFormRef and assigns to ref in parent component that is run at first render only with useEffect.
 
-- ISSUE: When reset filter form, clicking a checkbox that was previously checked does not filter episodes until unchecking and checking again.
+X ISSUE: When reset filter form, clicking a checkbox that was previously checked does not filter episodes until unchecking and checking again.
 
 - NOTE: Sort/Filter may NOT need to keep a state value. SelectedEpisodes is simply changed whenever sort/filter inputs are changed. However, sort needs to be referenced when filter changes. Could use a ref to read the value instead.
 

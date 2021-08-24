@@ -6,8 +6,9 @@
     "\\src",
     "\\src\\classes",
     "\\src\\components",
+    "\\src\\images",
     "\\src\\objects"
   ],
-  "SelectedNode": "\\src\\components\\IsLoading.css",
+  "SelectedNode": "\\src\\components\\IsLoading.js",
   "PreviewInSolutionExplorer": false
 }
