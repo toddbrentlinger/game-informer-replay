@@ -1,5 +1,15 @@
 Game Informer Replay TODO:
 
+9/1/21
+
+- YouTube video player styling
+    position: relative;
+    width: 100%;
+    height: calc((9 / 16) * 100vw);
+    max-height: calc(100vh - 169px);
+    min-height: 480px;
+    background: #000;
+
 7/23/21
 
 - ISSUE: When displayed list changes, the previous image is displayed shortly until the right image loads in it's place.
